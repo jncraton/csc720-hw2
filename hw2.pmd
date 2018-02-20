@@ -24,15 +24,21 @@ $w = xyz = 012$
 
 y can be seleected to be any of the following:
 
-1. y = 012
-2. y = 01
-3. y = 12
-4. y = 1
+1\. y = 012
 
-1. For y = 012 and i = 2, the produced string 012012 is not in the language.
-2. For y = 01 and i = 2, the produced string 01012 is not in the langauge.
-3. For y = 12 and i = 2, the produced string 01212 is not in the language.
-4. For y = 1 and i = 2, the produced string 0112 is not in the language.
+2\. y = 01
+
+3\. y = 12
+
+4\. y = 1
+
+1\. For y = 012 and i = 2, the produced string 012012 is not in the language.
+
+2\. For y = 01 and i = 2, the produced string 01012 is not in the langauge.
+
+3\. For y = 12 and i = 2, the produced string 01212 is not in the language.
+
+4\. For y = 1 and i = 2, the produced string 0112 is not in the language.
 
 We are unable to select a value for y that satisifies the pumping lemma, therefore this is not a regular language by contradiction.
 
