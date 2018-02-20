@@ -1,0 +1,126 @@
+CSC720 Homework 2
+=================
+
+Due Date: Tuesday, Mar 13, 2018 By Midnight
+
+(20 points) 1.29 Use the pumping lemma to show that the following
+languages are not regular.
+
+a\. $A_{1 =}\{ 0^{n}1^{n}2^{n}|n \geq 0\}$
+
+This will be solved by apply a proof by contradition and the pumping lemma.
+
+From Wikipedia:
+
+> For any regular language L there exists a constant p such that any word w in L with length at least p can be split into three substrings, w = xyz, where the middle portion y must not be empty, such that the words xz, xyz, xyyz, xyyyz, … constructed by repeating y zero or more times are still in L. This process of repetition is known as "pumping". Moreover, the pumping lemma guarantees that the length of xy will be at most p, imposing a limit on the ways in which w may be split.
+
+b\. $A_{2 =}\{ www|w \in \left\{ a,b \right\}^{*}\}$
+
+(20 points) 2.4 Give context-free grammars that generate the following
+languages. In all parts the alphabet Σ is {0, 1}.
+
+b\. {w | w starts and ends with the same symbol}
+
+c\. {w | the length of w is odd|
+
+(10 points) Figure 2.17 shows a push down automata which recognizes
+{a^i^b^j^c^k^| i, j, k≥0 and i=j or i=k}. Please design and draw a new
+push down automat which recognizes {a^i^b^j^c^k^| i, j, k≥0 and i≥j or
+i≥k}.
+
+![](./media/image1.png){width="2.750285433070866in"
+height="1.8020833333333333in"}
+
+(10 points) 2.14 Convert the following CFG into an equivalent CFG in
+Chomsky normal form, using the procedure given in Theorem 2.9.
+
+A→BAB|B|ε
+
+B→00|ε
+
+(10 points) 2.30 Use the pumping lemma to show that the following
+languages are not context free.
+
+a\. $\left\{ 0^{n}1^{n}0^{n}1^{n} \middle| n \geq 0 \right\}$
+
+(10 points) Answer the following two questions:
+
+a.  Briefly describe how regular language is used for lexical analysis
+    in a compiler.
+
+b.  Briefly describe how context free language is used for parsing
+    (syntax analysis) in a compiler.
+
+(20 points) Programming Assignments
+
+This programming assignment assumes you have a Linux compiling
+environment. If you don’t have one, setting up a Linux machine in a
+VirtualBox or VMware Player is a quick way to get a Linux development
+environment. If you need help to set up a Linux virtual machine, let me
+know.
+
+Assume you have an Ubuntu Linux, you need to install additional packages
+to complete the lab. These packages include, flex and bison. You can
+install these packages by running the following commands:
+
+&gt;apt-get install flex
+
+&gt;apt-get install bison
+
+A homework2.zip file has been posted in the class website. The zip file
+includes three folders, q1, q2, and q3. Each folder contains the
+necessary files to finish each question.
+
+**(4 points)** 1) When you use gcc compile a program, e.g., hello.c
+
+&gt;gcc hello.c –o hello
+
+It will create a binary file. You can also check the temporary output
+files created by gcc using option –save-temps. Try
+
+&gt;gcc hello.c –o hello –save-temps
+
+and find out what intermediate output files can be produced by gcc.
+Briefly describe each intermediate output file.
+
+**(8 points)** 2) The flex file, calc.lex, is a simple calculator. You
+can compile the file with the following commands:
+
+&gt; flex calc.lex; gcc -o calc lex.yy.c
+
+You can then run the calculator with the 'calc' command and can quit out
+of it using ctrl-d.
+
+Do the following and submitted your modified code:
+
+-   Add division and subtraction to the calculator.
+
+-   Keep track of the number of lines that have been input. Make sure
+    that you set the lineNumber variable in yylval.ti for each token and
+    print out the line count when you print out variable information.
+
+-   Extend the variables to handle longer variable names. The variables
+    must start with an alphabetic character or '\_' character and may be
+    followed by 0 or more alphabetic/numerical/'\_'/'-' characters.
+
+**(8 points)** 3) A flex file, calc.lex, a bison file, calc.y, and a
+Makefile are provide in homework2 q3 folder. You can compile the flex
+file and the bison file by running
+
+&gt;make
+
+A binary execution file, calc, will be created.
+
+You can then run the calculator with the 'calc' command and can quit out
+of it using “quit”.
+
+Do the following and submitted your modified code:
+
+-   Extend the calculator to support power operator, ‘\^’. Let x, y are
+    two numbers, ${x\hat{}y = x}^{y}$.
+
+-   Extend the calculator to support parentheses, ‘(‘, and ‘)’. An
+    expression inside parentheses needs to be evaluated first, e.g.,
+    enter 2 \* ( 3 + 2) in the calculator and it should return 10.
+
+
