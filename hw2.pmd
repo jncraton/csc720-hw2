@@ -6,15 +6,37 @@ Due Date: Tuesday, Mar 13, 2018 By Midnight
 (20 points) 1.29 Use the pumping lemma to show that the following
 languages are not regular.
 
-a\. $A_{1 =}\{ 0^{n}1^{n}2^{n}|n \geq 0\}$
+a\. $A_1 = \{ 0^n1^n2^n|n \geq 0 \}$
 
-This will be solved by apply a proof by contradition and the pumping lemma.
+This will be solved by applying a proof by contradition and the pumping lemma.
 
 From Wikipedia:
 
 > For any regular language L there exists a constant p such that any word w in L with length at least p can be split into three substrings, w = xyz, where the middle portion y must not be empty, such that the words xz, xyz, xyyz, xyyyz, … constructed by repeating y zero or more times are still in L. This process of repetition is known as "pumping". Moreover, the pumping lemma guarantees that the length of xy will be at most p, imposing a limit on the ways in which w may be split.
 
-b\. $A_{2 =}\{ www|w \in \left\{ a,b \right\}^{*}\}$
+$w = xyz = 0^n1^n2^n$
+
+The pumping lemma specifies that w is still in the langauge for all $i \geq 0, xy^iz∈L$. 
+
+Consider the word w 012:
+
+$w = xyz = 012$
+
+y can be seleected to be any of the following:
+
+1. y = 012
+2. y = 01
+3. y = 12
+4. y = 1
+
+1. For y = 012 and i = 2, the produced string 012012 is not in the language.
+2. For y = 01 and i = 2, the produced string 01012 is not in the langauge.
+3. For y = 12 and i = 2, the produced string 01212 is not in the language.
+4. For y = 1 and i = 2, the produced string 0112 is not in the language.
+
+We are unable to select a value for y that satisifies the pumping lemma, therefore this is not a regular language by contradiction.
+
+b\. $A_{2} = \{ www|w \in \left\{ a,b \right\}^{*}\}$
 
 (20 points) 2.4 Give context-free grammars that generate the following
 languages. In all parts the alphabet Σ is {0, 1}.
