@@ -111,6 +111,132 @@ files created by gcc using option –save-temps. Try
 and find out what intermediate output files can be produced by gcc.
 Briefly describe each intermediate output file.
 
+A typically C compilation pipeline is handled in 4 phases using 4 distinct tools:
+
+1. Pre-processor
+  - Expands Macros
+  - Handles includes
+  - In a nutshell, it takes care of anything starting with `#`
+  - With `--save-temps` the output of this phase is stored in `hello.i`
+  - This output of this step is valid C code.
+2. Compiler
+  - Converts pre-processed C code into assembly instructions
+  - Compilation could output machine code directly, but using intermediate assembly modularizes the tool chain. Also, because C allows inline assembly, you need a full assembler anyhow.
+  - The output of this step is stored in `hello.s`, and is stored as assembly instructions viewable as text.
+  ```asm
+	.file	"hello.c"
+	.section	.rodata
+.LC0:
+	.string	"hello world"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB2:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	movl	$.LC0, %edi
+	call	puts
+	nop
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2:
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609"
+	.section	.note.GNU-stack,"",@progbits
+  ```
+  - It's worth noting that while an intermediate human-readable representation is handy, it isn't strictly necessary. This representation also doesn't need to actually be assembly language instructions for the target platform. For example, LLVM uses a platform independent intermediate representation.
+3. Assembler
+  - The assembler converts assembly instructions to machine code
+  - The output of this stage is stored as `hello.o`
+  - This stage is notable as this output is frequently generated as part of a "normal" build process. Typically, many C files are assembled and then linked into a single final executable.
+  - Being machine code, we can't easily view .o files directly. They can be viewed with a hex editor, but that's fairly painful. GCC does include a tool called objdump to allow us to disassemble obejct files. Here's the output of `objdump -D hello.o` to demonstrate that the object file basically contains out previous assembly code:
+  ```
+hello.o:     file format elf64-x86-64
+ 
+ 
+ Disassembly of section .text:
+ 
+ 0000000000000000 <main>:
+    0:	55                   	push   %rbp
+    1:	48 89 e5             	mov    %rsp,%rbp
+    4:	bf 00 00 00 00       	mov    $0x0,%edi
+    9:	e8 00 00 00 00       	callq  e <main+0xe>
+    e:	90                   	nop
+    f:	5d                   	pop    %rbp
+   10:	c3                   	retq   
+ 
+ Disassembly of section .rodata:
+ 
+ 0000000000000000 <.rodata>:
+    0:	68 65 6c 6c 6f       	pushq  $0x6f6c6c65
+    5:	20 77 6f             	and    %dh,0x6f(%rdi)
+    8:	72 6c                	jb     76 <main+0x76>
+    a:	64                   	fs
+ 	...
+ 
+ Disassembly of section .comment:
+ 
+ 0000000000000000 <.comment>:
+    0:	00 47 43             	add    %al,0x43(%rdi)
+    3:	43 3a 20             	rex.XB cmp (%r8),%spl
+    6:	28 55 62             	sub    %dl,0x62(%rbp)
+    9:	75 6e                	jne    79 <main+0x79>
+    b:	74 75                	je     82 <main+0x82>
+    d:	20 35 2e 34 2e 30    	and    %dh,0x302e342e(%rip)        # 302e3441 <main+0x302e3441>
+   13:	2d 36 75 62 75       	sub    $0x75627536,%eax
+   18:	6e                   	outsb  %ds:(%rsi),(%dx)
+   19:	74 75                	je     90 <main+0x90>
+   1b:	31 7e 31             	xor    %edi,0x31(%rsi)
+   1e:	36 2e 30 34 2e       	ss xor %dh,%cs:(%rsi,%rbp,1)
+   23:	39 29                	cmp    %ebp,(%rcx)
+   25:	20 35 2e 34 2e 30    	and    %dh,0x302e342e(%rip)        # 302e3459 <main+0x302e3459>
+   2b:	20 32                	and    %dh,(%rdx)
+   2d:	30 31                	xor    %dh,(%rcx)
+   2f:	36 30 36             	xor    %dh,%ss:(%rsi)
+   32:	30 39                	xor    %bh,(%rcx)
+ 	...
+ 
+ Disassembly of section .eh_frame:
+ 
+ 0000000000000000 <.eh_frame>:
+    0:	14 00                	adc    $0x0,%al
+    2:	00 00                	add    %al,(%rax)
+    4:	00 00                	add    %al,(%rax)
+    6:	00 00                	add    %al,(%rax)
+    8:	01 7a 52             	add    %edi,0x52(%rdx)
+    b:	00 01                	add    %al,(%rcx)
+    d:	78 10                	js     1f <.eh_frame+0x1f>
+    f:	01 1b                	add    %ebx,(%rbx)
+   11:	0c 07                	or     $0x7,%al
+   13:	08 90 01 00 00 1c    	or     %dl,0x1c000001(%rax)
+   19:	00 00                	add    %al,(%rax)
+   1b:	00 1c 00             	add    %bl,(%rax,%rax,1)
+   1e:	00 00                	add    %al,(%rax)
+   20:	00 00                	add    %al,(%rax)
+   22:	00 00                	add    %al,(%rax)
+   24:	11 00                	adc    %eax,(%rax)
+   26:	00 00                	add    %al,(%rax)
+   28:	00 41 0e             	add    %al,0xe(%rcx)
+   2b:	10 86 02 43 0d 06    	adc    %al,0x60d4302(%rsi)
+   31:	4c 0c 07             	rex.WR or $0x7,%al
+   34:	08 00                	or     %al,(%rax)
+ 	...
+ 	``` 
+4. Linker
+  - Merges object file(s) into a single final executable
+  - Adds necessary bootstraping code to start execution, handles environment and command line variables, etc.
+  - Converts references to external code to the correct locations.
+  - The linker may run dynamically to call into dynamically loaded dependencies, or it can be run statically to include all dependencies directly in the final binary. 
+  - The output of this stage is the final executable, `hello`.
+  - This stage is also hard to view directly, but we can still use `objdump` to convert it to assembly for debugging. I won't include this inline as it is much longer than the above.
+
 **(8 points)** 2) The flex file, calc.lex, is a simple calculator. You
 can compile the file with the following commands:
 
