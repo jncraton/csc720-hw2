@@ -18,6 +18,7 @@ void yyerror(const char* s);
 
 %token<ival> NUM
 %token QUIT
+%left '(' ')'
 %left '+' '-'
 %left '*' '/'
 %left '^'
@@ -38,6 +39,7 @@ line: '\n'
 ;
 
 exp: NUM		{ $$ = $1; }
+    | '(' exp ')' { $$ = $2; }
     | exp '+' exp	{ $$ = $1 + $3; }
     | exp '-' exp	{ $$ = $1 - $3; }
     | exp '*' exp	{ $$ = $1 * $3; }

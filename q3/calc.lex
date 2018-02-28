@@ -17,6 +17,8 @@
 "*"	{return '*';}
 "/"	{return '/';}
 "^"	{return '^';}
+"("	{return '(';}
+")"	{return ')';}
 "quit"	{return QUIT;}
 
 %%
