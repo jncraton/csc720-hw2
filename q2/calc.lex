@@ -21,7 +21,7 @@ struct tokenInfo2 yylval;
 [a-z]   {
 	   yylval.ti.value = 0;
 	   yylval.ti.name =  (char *) strdup(yytext);
-	   printf("VARIABLE: %s\n", yylval.ti.name);
+	   printf("VARIABLE: %s LINES: %d\n", yylval.ti.name, yylval.ti.lineNumber);
         }
 
 [0-9]+  {  
@@ -36,7 +36,10 @@ struct tokenInfo2 yylval;
 \*     printf("MULTIPLY\n");
 \/     printf("DIVIDE\n");
 
-\n    printf("NEWLINE\n");
+\n      {
+           printf("NEWLINE\n");
+           yylval.ti.lineNumber += 1;
+        }
 
 [ \t]   ;
 

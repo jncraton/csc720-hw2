@@ -249,9 +249,52 @@ Do the following and submitted your modified code:
 
 -   Add division and subtraction to the calculator.
 
+```
+diff --git a/q2/calc.lex b/q2/calc.lex
+index 101c022..01e6612 100644
+--- a/q2/calc.lex
++++ b/q2/calc.lex
+@@ -32,7 +32,9 @@ struct tokenInfo2 yylval;
+ 
+ :=    printf("ASSIGNMENT\n");
+ \+     printf("PLUS\n");
++\-     printf("MINUS\n");
+ \*     printf("MULTIPLY\n");
++\/     printf("DIVIDE\n");
+ 
+ \n    printf("NEWLINE\n");
+```
+
 -   Keep track of the number of lines that have been input. Make sure
     that you set the lineNumber variable in yylval.ti for each token and
     print out the line count when you print out variable information.
+
+```
+diff --git a/q2/calc.lex b/q2/calc.lex
+index 01e6612..b91c8a0 100644
+--- a/q2/calc.lex
++++ b/q2/calc.lex
+@@ -21,7 +21,7 @@ struct tokenInfo2 yylval;
+ [a-z]   {
+ 	   yylval.ti.value = 0;
+ 	   yylval.ti.name =  (char *) strdup(yytext);
+-	   printf("VARIABLE: %s\n", yylval.ti.name);
++	   printf("VARIABLE: %s LINES: %d\n", yylval.ti.name, yylval.ti.lineNumber);
+         }
+ 
+ [0-9]+  {  
+@@ -36,7 +36,10 @@ struct tokenInfo2 yylval;
+ \*     printf("MULTIPLY\n");
+ \/     printf("DIVIDE\n");
+ 
+-\n    printf("NEWLINE\n");
++\n      {
++           printf("NEWLINE\n");
++           yylval.ti.lineNumber += 1;
++        }
+ 
+ [ \t]   ;
+```
 
 -   Extend the variables to handle longer variable names. The variables
     must start with an alphabetic character or '\_' character and may be
