@@ -32,7 +32,9 @@ struct tokenInfo2 yylval;
 
 :=    printf("ASSIGNMENT\n");
 \+     printf("PLUS\n");
+\-     printf("MINUS\n");
 \*     printf("MULTIPLY\n");
+\/     printf("DIVIDE\n");
 
 \n    printf("NEWLINE\n");
 
