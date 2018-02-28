@@ -38,7 +38,10 @@ struct tokenInfo2 yylval;
 
 [ \t]   ;
 
-.       printf("Invalid character\n");
+.       {
+        printf("Invalid character\n");
+        exit(1);
+        }
 
 %%
 
@@ -46,10 +49,7 @@ int yywrap() {
  return 1;
 }
 
-main( argc, argv )
-int argc;
-char **argv;
-{
+int main(int argc, char **argv ) {
   ++argv, --argc;  /* skip over program name */
   if ( argc > 0 )
     yyin = fopen( argv[0], "r" );
