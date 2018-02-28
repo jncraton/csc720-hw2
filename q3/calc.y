@@ -45,7 +45,7 @@ exp: NUM		{ $$ = $1; }
 
 %%
 
-main() {
+int main() {
 	yyin = stdin;
 
 	do { 
