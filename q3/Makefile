@@ -13,6 +13,7 @@ test: calc
 	echo "1+1" | ./calc | grep 2
 	echo "8/4" | ./calc | grep 2
 	echo "7-2*3" | ./calc | grep 1
+	echo "2^4" | ./calc | grep 16
 
 clean:
 	rm calc calc.tab.c lex.yy.c calc.tab.h
