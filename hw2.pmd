@@ -300,6 +300,22 @@ index 01e6612..b91c8a0 100644
     must start with an alphabetic character or '\_' character and may be
     followed by 0 or more alphabetic/numerical/'\_'/'-' characters.
 
+```
+diff --git a/q2/calc.lex b/q2/calc.lex
+index b91c8a0..9857abd 100644
+--- a/q2/calc.lex
++++ b/q2/calc.lex
+@@ -18,7 +18,7 @@ struct tokenInfo2 yylval;
+ 
+ %%
+ 
+-[a-z]   {
++[a-zA-Z_][a-zA-Z0-9_\-]*   {
+ 	   yylval.ti.value = 0;
+ 	   yylval.ti.name =  (char *) strdup(yytext);
+ 	   printf("VARIABLE: %s LINES: %d\n", yylval.ti.name, yylval.ti.lineNumber);
+```
+
 **(8 points)** 3) A flex file, calc.lex, a bison file, calc.y, and a
 Makefile are provide in homework2 q3 folder. You can compile the flex
 file and the bison file by running
