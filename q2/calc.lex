@@ -18,7 +18,7 @@ struct tokenInfo2 yylval;
 
 %%
 
-[a-z]   {
+[a-zA-Z_][a-zA-Z0-9_\-]*   {
 	   yylval.ti.value = 0;
 	   yylval.ti.name =  (char *) strdup(yytext);
 	   printf("VARIABLE: %s LINES: %d\n", yylval.ti.name, yylval.ti.lineNumber);
