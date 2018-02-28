@@ -1,5 +1,6 @@
-CSC720 Homework 2
-=================
+% CSC720 Homework 2
+% Jon Craton
+% March 13, 2018
 
 Due Date: Tuesday, Mar 13, 2018 By Midnight
 
@@ -49,7 +50,35 @@ languages. In all parts the alphabet Σ is {0, 1}.
 
 b\. {w | w starts and ends with the same symbol}
 
+```python
+from nltk import CFG
+
+grammar = CFG.fromstring("""
+S -> '0' Any '0'
+S -> '1' Any '1'
+S -> '0' | '1'
+Any -> '0' Any
+Any -> '1' Any
+Any ->
+""")
+
+from nltk.parse.generate import generate
+
+print([''.join(s) for s in generate(grammar, depth=5)])
+```
+
 c\. {w | the length of w is odd|
+
+```python
+grammar = CFG.fromstring("""
+S -> OneCount EvenCount
+OneCount -> '0' | '1'
+EvenCount -> OneCount OneCount
+EvenCount -> 
+""")
+
+print([''.join(s) for s in generate(grammar, depth=5)])
+```
 
 (10 points) Figure 2.17 shows a push down automata which recognizes
 {a^i^b^j^c^k^| i, j, k≥0 and i=j or i=k}. Please design and draw a new
