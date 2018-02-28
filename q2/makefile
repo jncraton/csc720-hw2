@@ -1,7 +1,10 @@
 all: calc
 
-calc.yy.c: calc.lex
+lex.yy.c: calc.lex
 	flex calc.lex
 
-calc: calc.yy.c
+calc: lex.yy.c
 	gcc -o calc lex.yy.c
+
+test: calc
+	./calc test.calc
