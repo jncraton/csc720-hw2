@@ -20,6 +20,7 @@ void yyerror(const char* s);
 %token QUIT
 %left '+' '-'
 %left '*' '/'
+%left '^'
 
 %type<ival> exp
 
@@ -41,6 +42,7 @@ exp: NUM		{ $$ = $1; }
     | exp '-' exp	{ $$ = $1 - $3; }
     | exp '*' exp	{ $$ = $1 * $3; }
     | exp '/' exp	{ $$ = $1 / $3; }
+    | exp '^' exp	{ $$ = pow($1, $3); }
 ;
 
 %%
