@@ -7,7 +7,7 @@ lex.yy.c: calc.lex calc.tab.h
 	flex calc.lex
 
 calc: lex.yy.c calc.tab.c calc.tab.h
-	gcc -o calc calc.tab.c lex.yy.c -lfl
+	gcc -o calc calc.tab.c lex.yy.c -lfl -lm
 
 test: calc
 	echo "1+1" | ./calc | grep 2

@@ -332,6 +332,54 @@ Do the following and submitted your modified code:
 -   Extend the calculator to support power operator, ‘\^’. Let x, y are
     two numbers, ${x\hat{}y = x}^{y}$.
 
+```
+diff --git a/q3/Makefile b/q3/Makefile
+index d002bb4..3f2fd68 100644
+--- a/q3/Makefile
++++ b/q3/Makefile
+@@ -7,7 +7,7 @@ lex.yy.c: calc.lex calc.tab.h
+ 	flex calc.lex
+ 
+ calc: lex.yy.c calc.tab.c calc.tab.h
+-	gcc -o calc calc.tab.c lex.yy.c -lfl
++	gcc -o calc calc.tab.c lex.yy.c -lfl -lm
+ 
+ test: calc
+ 	echo "1+1" | ./calc | grep 2
+diff --git a/q3/calc.lex b/q3/calc.lex
+index 975e718..5153c79 100644
+--- a/q3/calc.lex
++++ b/q3/calc.lex
+@@ -16,6 +16,7 @@
+ "-"	{return '-';}
+ "*"	{return '*';}
+ "/"	{return '/';}
++"^"	{return '^';}
+ "quit"	{return QUIT;}
+ 
+ %%
+diff --git a/q3/calc.y b/q3/calc.y
+index 29a338d..a2451de 100644
+--- a/q3/calc.y
++++ b/q3/calc.y
+@@ -20,6 +20,7 @@ void yyerror(const char* s);
+ %token QUIT
+ %left '+' '-'
+ %left '*' '/'
++%left '^'
+ 
+ %type<ival> exp
+ 
+@@ -41,6 +42,7 @@ exp: NUM		{ $$ = $1; }
+     | exp '-' exp	{ $$ = $1 - $3; }
+     | exp '*' exp	{ $$ = $1 * $3; }
+     | exp '/' exp	{ $$ = $1 / $3; }
++    | exp '^' exp	{ $$ = pow($1, $3); }
+ ;
+ 
+ %%
+```
+
 -   Extend the calculator to support parentheses, ‘(‘, and ‘)’. An
     expression inside parentheses needs to be evaluated first, e.g.,
     enter 2 \* ( 3 + 2) in the calculator and it should return 10.
