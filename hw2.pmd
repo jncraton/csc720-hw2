@@ -82,18 +82,67 @@ print([''.join(s) for s in generate(grammar, depth=5)])
 
 (10 points) Figure 2.17 shows a push down automata which recognizes
 {a^i^b^j^c^k^| i, j, k≥0 and i=j or i=k}. Please design and draw a new
-push down automat which recognizes {a^i^b^j^c^k^| i, j, k≥0 and i≥j or
+push down automata which recognizes {a^i^b^j^c^k^| i, j, k≥0 and i≥j or
 i≥k}.
 
-![](./media/image1.png){width="2.750285433070866in"
-height="1.8020833333333333in"}
+![](./media/image1.png)
+
+Here's the orignal in JFLAP:
+
+![](pda.png)
+
+Basically, this needs to be amended to also accept i > j or i > k. Let's make sure the orignal does what we expect first:
+
+![](pda-test.png)
+
+Now we just need to add a few transitions to allow the machine to be able to loop after it has met the desired conditions:
+
+![](pda-adj.png)
+
+Now we see that our test for the new mode are passing:
+
+![](pda-adj-test.png)
 
 (10 points) 2.14 Convert the following CFG into an equivalent CFG in
 Chomsky normal form, using the procedure given in Theorem 2.9.
 
-A→BAB|B|ε
+    A→BAB|B|ε
+    B→00|ε
 
-B→00|ε
+Step 1: Rename start variable
+
+There is no start variable.
+
+    A→BAB|B|ε
+    B→00|ε
+
+Step 2: Remove ε rules
+
+For B:
+
+    A→BAB|B|ε|A
+    B→00
+
+Then for A:
+
+    A→BAB|B|A|BB
+    B→00
+
+Step 3a: Remove identity unit rules
+
+    A→BAB|B|BB
+    B→00
+
+Step 3b: Remove other unit rules
+
+    A→BAB|00|BB
+    B→00
+
+Step 4: Convert rules to proper form
+
+    A→BB₁|00|BB
+    B₁→AB
+    B→00
 
 (10 points) 2.30 Use the pumping lemma to show that the following
 languages are not context free.
@@ -105,8 +154,12 @@ a\. $\left\{ 0^{n}1^{n}0^{n}1^{n} \middle| n \geq 0 \right\}$
 a.  Briefly describe how regular language is used for lexical analysis
     in a compiler.
 
+Regular language is commonly used in lexical analysis to convert segments of text (lexemes) into tokens. If a segment of text matches a token rule, it is converted to a token. Tokens have a both a name and a value.
+
 b.  Briefly describe how context free language is used for parsing
     (syntax analysis) in a compiler.
+
+Once tokenized, the syntax of a segment of text can be parsed for syntax analysis. The overall syntax of many common programming langauges is context-free, so the syntax is matched to a context-free grammar.
 
 (20 points) Programming Assignments
 
@@ -143,50 +196,53 @@ Briefly describe each intermediate output file.
 A typically C compilation pipeline is handled in 4 phases using 4 distinct tools:
 
 1. Pre-processor
-  - Expands Macros
-  - Handles includes
-  - In a nutshell, it takes care of anything starting with `#`
-  - With `--save-temps` the output of this phase is stored in `hello.i`
-  - This output of this step is valid C code.
+    - Expands Macros
+    - Handles includes
+    - In a nutshell, it takes care of anything starting with `#`
+    - With `--save-temps` the output of this phase is stored in `hello.i`
+    - This output of this step is valid C code.
 2. Compiler
-  - Converts pre-processed C code into assembly instructions
-  - Compilation could output machine code directly, but using intermediate assembly modularizes the tool chain. Also, because C allows inline assembly, you need a full assembler anyhow.
-  - The output of this step is stored in `hello.s`, and is stored as assembly instructions viewable as text.
-  ```asm
-	.file	"hello.c"
-	.section	.rodata
+    - Converts pre-processed C code into assembly instructions
+    - Compilation could output machine code directly, but using intermediate assembly modularizes the tool chain. Also, because C allows inline assembly, you need a full assembler anyhow.
+    - The output of this step is stored in `hello.s`, and is stored as assembly instructions viewable as text.
+
+```asm
+.file	"hello.c"
+.section	.rodata
 .LC0:
-	.string	"hello world"
-	.text
-	.globl	main
-	.type	main, @function
+.string	"hello world"
+.text
+.globl	main
+.type	main, @function
 main:
 .LFB2:
-	.cfi_startproc
-	pushq	%rbp
-	.cfi_def_cfa_offset 16
-	.cfi_offset 6, -16
-	movq	%rsp, %rbp
-	.cfi_def_cfa_register 6
-	movl	$.LC0, %edi
-	call	puts
-	nop
-	popq	%rbp
-	.cfi_def_cfa 7, 8
-	ret
-	.cfi_endproc
+.cfi_startproc
+pushq	%rbp
+.cfi_def_cfa_offset 16
+.cfi_offset 6, -16
+movq	%rsp, %rbp
+.cfi_def_cfa_register 6
+movl	$.LC0, %edi
+call	puts
+nop
+popq	%rbp
+.cfi_def_cfa 7, 8
+ret
+.cfi_endproc
 .LFE2:
-	.size	main, .-main
-	.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609"
-	.section	.note.GNU-stack,"",@progbits
-  ```
-  - It's worth noting that while an intermediate human-readable representation is handy, it isn't strictly necessary. This representation also doesn't need to actually be assembly language instructions for the target platform. For example, LLVM uses a platform independent intermediate representation.
+.size	main, .-main
+.ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609"
+.section	.note.GNU-stack,"",@progbits
+```
+
+    - It's worth noting that while an intermediate human-readable representation is handy, it isn't strictly necessary. This representation also doesn't need to actually be assembly language instructions for the target platform. For example, LLVM uses a platform independent intermediate representation.
 3. Assembler
-  - The assembler converts assembly instructions to machine code
-  - The output of this stage is stored as `hello.o`
-  - This stage is notable as this output is frequently generated as part of a "normal" build process. Typically, many C files are assembled and then linked into a single final executable.
-  - Being machine code, we can't easily view .o files directly. They can be viewed with a hex editor, but that's fairly painful. GCC does include a tool called objdump to allow us to disassemble obejct files. Here's the output of `objdump -D hello.o` to demonstrate that the object file basically contains out previous assembly code:
-  ```
+    - The assembler converts assembly instructions to machine code
+    - The output of this stage is stored as `hello.o`
+    - This stage is notable as this output is frequently generated as part of a "normal" build process. Typically, many C files are assembled and then linked into a single final executable.
+    - Being machine code, we can't easily view .o files directly. They can be viewed with a hex editor, but that's fairly painful. GCC does include a tool called objdump to allow us to disassemble obejct files. Here's the output of `objdump -D hello.o` to demonstrate that the object file basically contains out previous assembly code:
+
+```
 hello.o:     file format elf64-x86-64
  
  
@@ -257,14 +313,15 @@ hello.o:     file format elf64-x86-64
    31:	4c 0c 07             	rex.WR or $0x7,%al
    34:	08 00                	or     %al,(%rax)
  	...
- 	``` 
+``` 
+
 4. Linker
-  - Merges object file(s) into a single final executable
-  - Adds necessary bootstraping code to start execution, handles environment and command line variables, etc.
-  - Converts references to external code to the correct locations.
-  - The linker may run dynamically to call into dynamically loaded dependencies, or it can be run statically to include all dependencies directly in the final binary. 
-  - The output of this stage is the final executable, `hello`.
-  - This stage is also hard to view directly, but we can still use `objdump` to convert it to assembly for debugging. I won't include this inline as it is much longer than the above.
+    - Merges object file(s) into a single final executable
+    - Adds necessary bootstraping code to start execution, handles environment and command line variables, etc.
+    - Converts references to external code to the correct locations.
+    - The linker may run dynamically to call into dynamically loaded dependencies, or it can be run statically to include all dependencies directly in the final binary. 
+    - The output of this stage is the final executable, `hello`.
+    - This stage is also hard to view directly, but we can still use `objdump` to convert it to assembly for debugging. I won't include this inline as it is much longer than the above.
 
 **(8 points)** 2) The flex file, calc.lex, is a simple calculator. You
 can compile the file with the following commands:
