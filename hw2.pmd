@@ -4,8 +4,9 @@
 
 Due Date: Tuesday, Mar 13, 2018 By Midnight
 
-(20 points) 1.29 Use the pumping lemma to show that the following
-languages are not regular.
+## Problem 1 (20 points)
+
+1.29 Use the pumping lemma to show that the following languages are not regular.
 
 a\. A₁ = { 0ⁿ1ⁿ2ⁿ|n ≥ 0 }
 
@@ -13,16 +14,23 @@ This will be solved by applying a proof by contradiction and the pumping lemma.
 
 Assume that A is a regular language. Let p be the pumping length from the pumping lemma. Let s be the string 0<sup>p</sup>1<sup>p</sup>2<sup>p</sup>. s is a member of A and |s| ≥ p, so the pumping lemma for regular languages applies.
 
-The pumping lemma for regular languages states that s can be partitioned as xyz such that xyⁱz∈A where i≥0. Additionally, |y| > 0 and |xy| ≤ p.
+The pumping lemma for regular languages states that s can be partitioned as xyz such that xyⁱz∈A where i≥0. Additionally, |y| > 0 and |xy| ≤ p. When considering the possible partition schemes for s, we see that only y=0<sup>k</sup> where k>0 and k≤p satisfies the conditions that |y| > 0 and |xy| ≤ p.
 
-When consider the possible partition schemes for s, we see that only y=0<sup>k</sup> where k>0 and k≤p satisfies the conditions that |y| > 0 and |xy| ≤ p.
+The pumping lemma tells us that xyⁱz∈A for all i≥0. However, for i=0, the zero component is completely removed from our string while 1<sup>p</sup>2<sup>p</sup> remains. The generated string is not a member of the language for all k, therefore, A is not a regular language by contradiction.
 
-The pumping lemma tells us that xyⁱz∈A for all i≥0. However, for i=0, the zero component is completely removed from our string while 1<sup>p</sup>2<sup>p</sup> remains. The generated string is not a member of the language for all p, therefore, A is not a regular language by contradiction.
+b\. A₂ = { www|w ∈ {a,b}* }
 
-b\. $A₂ = \{ www|w \in \left\{ a,b \right\}^{*}\}$
+This will be solved by applying a proof by contradiction and the pumping lemma.
 
-(20 points) 2.4 Give context-free grammars that generate the following
-languages. In all parts the alphabet Σ is {0, 1}.
+Assume that A is a regular language. Let p be the pumping length from the pumping lemma. Let s be the string a<sup>p</sup>a<sup>p</sup>a<sup>p</sup>. s is a member of A and |s| ≥ p, so the pumping lemma for regular languages applies.
+
+The pumping lemma for regular languages states that s can be partitioned as xyz such that xyⁱz∈A where i≥0. Additionally, |y| > 0 and |xy| ≤ p. When considering the possible partition schemes for s, we see that only x=ɛ,y=a<sup>k</sup>,z=a<sup>k</sup>a<sup>k</sup> where k>0 and k≤p satisfies the conditions that |y| > 0 and |xy| ≤ p.
+
+The pumping lemma tells us that xyⁱz∈A for all i≥0. However, for i=0, the first copy of our language w is completely removed from our string while a<sup>k</sup>a<sup>k</sup> remains. The generated string is not a member of the language for all k (when p=1, the string contains a number of a's that is not a multiple of 3), therefore, A is not a regular language by contradiction.
+
+## Problem 2 (20 points)
+
+2.4 Give context-free grammars that generate the following languages. In all parts the alphabet Σ is {0, 1}.
 
 b\. {w | w starts and ends with the same symbol}
 
