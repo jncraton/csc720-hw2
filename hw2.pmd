@@ -16,7 +16,7 @@ Assume that A is a regular language. Let p be the pumping length from the pumpin
 
 The pumping lemma for regular languages states that s can be partitioned as xyz such that xyⁱz∈A where i≥0. Additionally, |y| > 0 and |xy| ≤ p. When considering the possible partition schemes for s, we see that only y=0<sup>k</sup> where k>0 and k≤p satisfies the conditions that |y| > 0 and |xy| ≤ p.
 
-The pumping lemma tells us that xyⁱz∈A for all i≥0. However, for i=0, the zero component is completely removed from our string while 1<sup>p</sup>2<sup>p</sup> remains. The generated string is not a member of the language for all k, therefore, A is not a regular language by contradiction.
+The pumping lemma tells us that xyⁱz∈A for all i≥0. However, for i=0, the zero component is completely removed from our string while 1<sup>k</sup>2<sup>k</sup> remains. The generated string is not a member of the language for all k, therefore, A is not a regular language by contradiction.
 
 b\. A₂ = { www|w ∈ {a,b}* }
 
@@ -64,10 +64,9 @@ EvenCount ->
 print([''.join(s) for s in generate(grammar, depth=5)])
 ```
 
-(10 points) Figure 2.17 shows a push down automata which recognizes
-{a^i^b^j^c^k^| i, j, k≥0 and i=j or i=k}. Please design and draw a new
-push down automata which recognizes {a^i^b^j^c^k^| i, j, k≥0 and i≥j or
-i≥k}.
+## Problem 3 (10 points)
+
+Figure 2.17 shows a push down automata which recognizes {a^i^b^j^c^k^| i, j, k≥0 and i=j or i=k}. Please design and draw a new push down automata which recognizes {a^i^b^j^c^k^| i, j, k≥0 and i≥j or i≥k}.
 
 ![](./media/image1.png)
 
@@ -87,16 +86,16 @@ Now we see that our test for the new mode are passing:
 
 ![](pda-adj-test.png)
 
-(10 points) 2.14 Convert the following CFG into an equivalent CFG in
-Chomsky normal form, using the procedure given in Theorem 2.9.
+## Problem 4 (10 points)
+
+2.14 Convert the following CFG into an equivalent CFG in Chomsky normal form, using the procedure given in Theorem 2.9.
 
     A→BAB|B|ε
     B→00|ε
 
 Step 1: Rename start variable
 
-There is no start variable.
-
+    A₀→A
     A→BAB|B|ε
     B→00|ε
 
@@ -104,36 +103,112 @@ Step 2: Remove ε rules
 
 For B:
 
+    A₀→A
     A→BAB|B|ε|A
     B→00
 
 Then for A:
 
+    A₀→A
     A→BAB|B|A|BB
     B→00
 
-Step 3a: Remove identity unit rules
+We are allowed an ε rule for the start state, and in this case we need it.
 
+    A₀→A|ε
+    A→BAB|B|A|BB
+    B→00
+
+Step 3: Remove unit rules
+
+A→A:
+
+    A₀→A|ε
     A→BAB|B|BB
     B→00
 
-Step 3b: Remove other unit rules
+A→B:
 
+    A₀→A|ε
+    A→BAB|00|BB
+    B→00
+
+A₀→A:
+
+    A₀→BAB|00|BB|ε
     A→BAB|00|BB
     B→00
 
 Step 4: Convert rules to proper form
 
+    A₀→BB₁|00|BB|ε
     A→BB₁|00|BB
     B₁→AB
     B→00
 
-(10 points) 2.30 Use the pumping lemma to show that the following
-languages are not context free.
+I'm not sure if "00" counts as a single non-terminal in this case. Just in case it does not, I'll create separate rules so that "0" is the only non-terminal.
+
+    A₀→BB₁|C|BB|ε
+    A→BB₁|C|BB
+    B₁→AB
+    B→C
+    C→ZZ
+    Z→0
+
+Just to check our work, let's weakly verify that the starting form and CNF generate the same language:
+
+```python
+start = CFG.fromstring("""
+A -> B A B | B |
+B -> '0' '0'|
+""")
+
+cnf = CFG.fromstring("""
+A0 -> B B1 | C | B B |
+A  -> B B1 | C | B B
+B1 -> A B
+B  -> C
+C  -> Z Z
+Z  -> '0'
+""")
+
+from nltk.parse.chart import ChartParser
+
+def is_equivalent(a, b, flipped=False):
+  """ 
+  Quick check to see if two grammars are equivalent.
+
+  There's likely a proper algorithm for formally verifying that two 
+  grammars are equivelent. This doesn't attempt anything like that.
+
+  It simply creates a number of utterances with grammar a and confirms
+  they can be parsed by grammar b. This function cannot guarantee that
+  two grammars are equivalent, but if it returns False, the grammars are
+  definitely different.
+  """
+
+  parser = ChartParser(a)
+  
+  for s in generate(b, depth=5):
+    if len(list(parser.parse(s))) == 0:
+      print("Unable to parse %s" % s)
+      return False
+
+  return flipped or is_equivalent(b,a,flipped=True)
+
+is_equivalent(start, cnf)
+```
+
+
+## Problem 5 (10 points)
+
+2.30 Use the pumping lemma to show that the following languages are not context free.
 
 a\. $\left\{ 0^{n}1^{n}0^{n}1^{n} \middle| n \geq 0 \right\}$
 
-(10 points) Answer the following two questions:
+## Problem 6 (10 points)
+
+Answer the following two questions:
 
 a.  Briefly describe how regular language is used for lexical analysis
     in a compiler.
@@ -145,7 +220,9 @@ b.  Briefly describe how context free language is used for parsing
 
 Once tokenized, the syntax of a segment of text can be parsed for syntax analysis. The overall syntax of many common programming langauges is context-free, so the syntax is matched to a context-free grammar.
 
-(20 points) Programming Assignments
+## Problem 7 (20 points)
+
+Programming Assignments
 
 This programming assignment assumes you have a Linux compiling
 environment. If you don’t have one, setting up a Linux machine in a
@@ -165,7 +242,9 @@ A homework2.zip file has been posted in the class website. The zip file
 includes three folders, q1, q2, and q3. Each folder contains the
 necessary files to finish each question.
 
-**(4 points)** 1) When you use gcc compile a program, e.g., hello.c
+## 7a **(4 points)** 
+
+When you use gcc compile a program, e.g., hello.c
 
 &gt;gcc hello.c –o hello
 
@@ -371,8 +450,9 @@ The output of this stage is the final executable, `hello`. This stage is also ha
     
     ... (snipped)
 
-**(8 points)** 2) The flex file, calc.lex, is a simple calculator. You
-can compile the file with the following commands:
+## 7b **(8 points)**
+
+The flex file, calc.lex, is a simple calculator. You can compile the file with the following commands:
 
 &gt; flex calc.lex; gcc -o calc lex.yy.c
 
@@ -450,9 +530,9 @@ Here's the patch to implement this:
      	   yylval.ti.name =  (char *) strdup(yytext);
      	   printf("VARIABLE: %s LINES: %d\n", yylval.ti.name, yylval.ti.lineNumber);
 
-**(8 points)** 3) A flex file, calc.lex, a bison file, calc.y, and a
-Makefile are provide in homework2 q3 folder. You can compile the flex
-file and the bison file by running
+## 7c **(8 points)** 3) 
+
+A flex file, calc.lex, a bison file, calc.y, and a Makefile are provide in homework2 q3 folder. You can compile the flex file and the bison file by running
 
 &gt;make
 
