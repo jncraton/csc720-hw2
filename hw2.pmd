@@ -15,16 +15,9 @@ Assume that A is a regular language. Let p be the pumping length from the pumpin
 
 The pumping lemma for regular languages states that s can be partitioned as xyz such that xyⁱz∈A where i≥0. Additionally, |y| > 0 and |xy| ≤ p.
 
-We consider the possible partition schemes for s:
+When consider the possible partition schemes for s, we see that only y=0<sup>k</sup> where k>0 and k≤p satisfies the conditions that |y| > 0 and |xy| ≤ p.
 
-1. y = 0 produces 12, a string not in the language, when pumped to i = 0.
-2. y = 1 produces 02, a string not in the language, when pumped to i = 0.
-3. y = 2 produces 01, a string not in the language, when pumped to i = 0.
-4. y = 01 produces 2, a string not in the language, when pumped to i = 0.
-5. y = 12 produces 0, a string not in the language, when pumped to i = 0.
-6. y = 012 produces 012012, a string not in the language, when pumped to i = 2.
-
-We are unable to select a value for y that satisfies the pumping lemma, therefore A is not a regular language by contradiction.
+The pumping lemma tells us that xyⁱz∈A for all i≥0. However, for i=0, the zero component is completely removed from our string while 1<sup>p</sup>2<sup>p</sup> remains. The generated string is not a member of the language for all p, therefore, A is not a regular language by contradiction.
 
 b\. $A₂ = \{ www|w \in \left\{ a,b \right\}^{*}\}$
 
