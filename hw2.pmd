@@ -670,4 +670,18 @@ We need to add parens to the lexer, and properly handle them in the parse at the
          | exp '-' exp	{ $$ = $1 - $3; }
          | exp '*' exp	{ $$ = $1 * $3; }
 
-```
+I added a short test task to the makefile to validate that the final program does what it is supposed to do. This can be run in the q3 directory as `make test`:
+
+    > make test
+    echo "1+1" | ./calc | grep 2
+    	Result: 2
+    echo "8/4" | ./calc | grep 2
+    	Result: 2
+    echo "7-2*3" | ./calc | grep 1
+    	Result: 1
+    echo "2^4" | ./calc | grep 16
+    	Result: 16
+    echo "(1+1)^4" | ./calc | grep 16
+    	Result: 16
+    echo "2*(3+2)" | ./calc | grep 10
+    	Result: 10
