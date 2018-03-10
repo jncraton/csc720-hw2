@@ -843,15 +843,58 @@ True
 
 <h2>Problem 5 (10 points)</h2>
 <p>2.30 Use the pumping lemma to show that the following languages are not context free.</p>
-<p>a. <span class="math">\(\left\{ 0^{n}1^{n}0^{n}1^{n} \middle| n \geq 0 \right\}\)</span class="math"></p>
+<p>a. A = { 0ⁿ1ⁿ0ⁿ1ⁿ | n≥0 }</p>
+<p>This will be solved by applying a proof by contradiction and the pumping lemma for context-free languages.</p>
+<p>Assume that A is a context-free language. Let p be the pumping length from the pumping lemma for context-free languages. Let s be the string 0<sup>p</sup>1<sup>p</sup>0<sup>p</sup>1<sup>p</sup>. s is a member of A and |s| ≥ p, so the pumping lemma for context-free languages applies.</p>
+<p>The pumping lemma for context-free languages states that s can be partitioned as uvxyz such that uvⁱxyⁱz∈A for all i≥0. Additionally, |vy| &gt; 0 and |vxy| ≤ p. When considering the possible partition schemes for s, we see that v or y must be either 0<sup>k</sup> or 1<sup>k</sup> as these are the only values that satisfy the conditions |vy| &gt; 0 and |vxy| ≤ p. </p>
+<p>The pumping lemma tells us that uvⁱxyⁱz∈A for all i≥0. Pumping either of the possible values for v or y to anything other than i=1 produces a string with an unbalanced number of 1s and 0s. This sting is not a member of the language, therefore, A is not a context-free language by contradiction.</p>
 <h2>Problem 6 (10 points)</h2>
 <p>Answer the following two questions:</p>
 <p>a.  Briefly describe how regular language is used for lexical analysis
     in a compiler.</p>
 <p>Regular language is commonly used in lexical analysis to convert segments of text (lexemes) into tokens. If a segment of text matches a token rule, it is converted to a token. Tokens have a both a name and a value.</p>
+<p>For example, take the following text from a c-like langauge:</p>
+<pre><code>if ( a == 12 ) { return 42 }
+</code></pre>
+<p>A lexer may contain regular language rules to match against the string such as:</p>
+<pre><code>if becomes IF
+return becomes RETURN
+( becomes OPEN_P
+) becomes CLOSE_P
+== become IS_EQUAL
+{ becomes OPEN_B
+} becomes CLOSE_B
+\d+ becomes INT_LITERAL
+* becomes NAME
+</code></pre>
+<p>The lexer could then convert the string to a list of (name, value) duples such as:</p>
+<pre><code>(IF, 'if')
+(OPEN_P, '(')
+(NAME, 'a')
+(IS_EQUAL, '==')
+(INT_LITERAL, '12')
+(CLOSE_P, ')')
+(OPEN_B, '{')
+(RETURN, 'return')
+(INT_LITERAL, '42')
+(CLOSE_B, '}')
+</code></pre>
+<p>In this way the, the lexer uses regular language to convert lexemes matching a particular langage (12 and 42 are both INT_LITERALS) to a token representing that lexeme group.</p>
 <p>b.  Briefly describe how context free language is used for parsing
     (syntax analysis) in a compiler.</p>
 <p>Once tokenized, the syntax of a segment of text can be parsed for syntax analysis. The overall syntax of many common programming langauges is context-free, so the syntax is matched to a context-free grammar.</p>
+<p>Considering the above example, we may have grammar rules such as the following. Note that terminals here are the token names from above.</p>
+<pre><code>STMT -&gt; IF_STMT
+STMT -&gt; RETURN_STMT
+RETURN_STMT -&gt; RETURN EXPR
+IF_STMT -&gt; IF CONDITION BLOCK
+CONDITION -&gt; OPEN_P EXPR CLOSE_P
+BLOCK -&gt; OPEN_B STMT CLOSE_B
+EXPR -&gt; EXPR OP EXPR
+EXPR -&gt; INT_LITERAL
+OP -&gt; IS_EQUAL
+</code></pre>
+<p>These rules are used to parse the tokens into a parse tree that can be easily interpretted or compiled.</p>
 <h2>Problem 7 (20 points)</h2>
 <p>Programming Assignments</p>
 <p>This programming assignment assumes you have a Linux compiling
@@ -867,7 +910,7 @@ install these packages by running the following commands:</p>
 <p>A homework2.zip file has been posted in the class website. The zip file
 includes three folders, q1, q2, and q3. Each folder contains the
 necessary files to finish each question.</p>
-<h2>7a <strong>(4 points)</strong></h2>
+<h2>Problem 7a (4 points)</h2>
 <p>When you use gcc compile a program, e.g., hello.c</p>
 <p>&gt;gcc hello.c –o hello</p>
 <p>It will create a binary file. You can also check the temporary output
@@ -875,9 +918,9 @@ files created by gcc using option –save-temps. Try</p>
 <p>&gt;gcc hello.c –o hello –save-temps</p>
 <p>and find out what intermediate output files can be produced by gcc.
 Briefly describe each intermediate output file.</p>
-<p>A typical C compilation pipeline is handled in 4 phases using 4 distinct tools:</p>
-<h3>1. Pre-processor</h3>
-<p>The pre-processor expands macros and handle includes. In a nutshell, it takes care of anything starting with <code>#</code>. With <code>--save-temps</code> the output of this phase is stored in <code>hello.i</code>. This output is valid C code. Our <code>hello.c</code> program is still fundamentally the same with a lot of <code>#include</code> inlining:</p>
+<p>A typical C compilation pipeline is handled in 4 phases:</p>
+<h3>1. Pre-processor (hello.i)</h3>
+<p>The pre-processor expands macros and handle includes. In a nutshell, it takes care of anything starting with <code>#</code>. With <code>--save-temps</code> the output of this phase is stored in <code>hello.i</code>. This output is valid C code. After this stage, our <code>hello.c</code> program is still fundamentally the same with a lot of <code>#include</code> inlining:</p>
 <pre><code># 1 "hello.c"
 # 1 "&lt;built-in&gt;"
 # 1 "&lt;command-line&gt;"
@@ -891,7 +934,7 @@ void main()
  printf("hello world\n");
 }
 </code></pre>
-<h3>2. Compiler</h3>
+<h3>2. Compiler (hello.s)</h3>
 <p>The compiler converts pre-processed C code into assembly instructions. It's worth noting that while an intermediate human-readable representation is handy, it isn't strictly necessary. Compilation could output machine code directly, but using intermediate assembly modularizes the tool chain. Also, because C allows inline assembly, you need a full assembler in either case. This intermediate representation also doesn't need to actually be assembly language instructions for the target platform. For example, LLVM uses a platform independent intermediate representation.</p>
 <p>The output of this step is stored in <code>hello.s</code>, and is stored as assembly instructions still viewable as text:</p>
 <pre><code>.file   "hello.c"
@@ -921,7 +964,7 @@ ret
 .ident  "GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609"
 .section    .note.GNU-stack,"",@progbits
 </code></pre>
-<h3>3. Assembler</h3>
+<h3>3. Assembler (hello.o)</h3>
 <p>The assembler converts assembly instructions to machine code. The output of this stage is stored as <code>hello.o</code>. This stage is notable as this output is frequently generated as part of a "normal" build process. Typically, many C files are assembled and then linked into a single final executable.</p>
 <p>Being machine code, we can't easily view .o files directly. GCC does include a tool called objdump to allow us to disassemble obejct files. Here's the output of <code>objdump -D hello.o</code> to demonstrate that the object file basically contains our previous assembly code as machine code:</p>
 <pre><code>hello.o:     file format elf64-x86-64
@@ -995,8 +1038,8 @@ ret
    34:  08 00                   or     %al,(%rax)
     ...
 </code></pre>
-<h3>4. Linker</h3>
-<p>The linker merges object file(s) into a single final executable. It adds necessary bootstraping code to start execution, handles environment variables, command line arguments, and other things.</p>
+<h3>4. Linker (hello)</h3>
+<p>The linker merges object file(s) into a single final executable. It adds necessary bootstraping code to start execution, handles environment variables, and grabs command line arguments among other tasks.</p>
 <p>It converts references to external code to the correct locations. The linker may run dynamically to call into dynamically loaded dependencies, or it can be run statically to include all dependencies directly in the final binary.</p>
 <p>The output of this stage is the final executable, <code>hello</code>. This stage is also hard to view directly, but we can still use <code>objdump</code> to convert it to assembly for debugging:</p>
 <pre><code>q1/hello:     file format elf64-x86-64
@@ -1055,7 +1098,7 @@ Disassembly of section .text:
 
 ... (snipped)
 </code></pre>
-<h2>7b <strong>(8 points)</strong></h2>
+<h2>Problem 7b (8 points)</h2>
 <p>The flex file, calc.lex, is a simple calculator. You can compile the file with the following commands:</p>
 <p>&gt; flex calc.lex; gcc -o calc lex.yy.c</p>
 <p>You can then run the calculator with the 'calc' command and can quit out
@@ -1122,28 +1165,27 @@ index b91c8a0..9857abd 100644
        yylval.ti.name =  (char *) strdup(yytext);
        printf("VARIABLE: %s LINES: %d\n", yylval.ti.name, yylval.ti.lineNumber);
 </code></pre>
-<h2>7c <strong>(8 points)</strong> 3)</h2>
+<h2>Problem 7c (8 points)**</h2>
 <p>A flex file, calc.lex, a bison file, calc.y, and a Makefile are provide in homework2 q3 folder. You can compile the flex file and the bison file by running</p>
 <p>&gt;make</p>
 <p>A binary execution file, calc, will be created.</p>
 <p>You can then run the calculator with the 'calc' command and can quit out
 of it using “quit”.</p>
 <p>Do the following and submitted your modified code:</p>
-<ul>
-<li>Extend the calculator to support power operator, ‘\^’. Let x, y are
-    two numbers, <span class="math">\({x\hat{}y = x}^{y}\)</span class="math">.</li>
-</ul>
-<p>```
-diff --git a/q3/Makefile b/q3/Makefile
+<p>Extend the calculator to support power operator, ‘\^’. Let x, y are two numbers, <span class="math">\({x\hat{}y = x}^{y}\)</span class="math">.</p>
+<p>Here's the patch to implement this:</p>
+<pre><code>diff --git a/q3/Makefile b/q3/Makefile
 index d002bb4..3f2fd68 100644
 --- a/q3/Makefile
 +++ b/q3/Makefile
 @@ -7,7 +7,7 @@ lex.yy.c: calc.lex calc.tab.h
-    flex calc.lex</p>
-<p>calc: lex.yy.c calc.tab.c calc.tab.h
+    flex calc.lex
+
+ calc: lex.yy.c calc.tab.c calc.tab.h
 -   gcc -o calc calc.tab.c lex.yy.c -lfl
-+   gcc -o calc calc.tab.c lex.yy.c -lfl -lm</p>
-<p>test: calc
++   gcc -o calc calc.tab.c lex.yy.c -lfl -lm
+
+ test: calc
     echo "1+1" | ./calc | grep 2
 diff --git a/q3/calc.lex b/q3/calc.lex
 index 975e718..5153c79 100644
@@ -1151,65 +1193,69 @@ index 975e718..5153c79 100644
 +++ b/q3/calc.lex
 @@ -16,6 +16,7 @@
  "-"    {return '-';}
- "<em>"    {return '</em>';}
+ "*"    {return '*';}
  "/"    {return '/';}
 +"^"    {return '^';}
- "quit" {return QUIT;}</p>
-<p>%%
+ "quit" {return QUIT;}
+
+ %%
 diff --git a/q3/calc.y b/q3/calc.y
 index 29a338d..a2451de 100644
 --- a/q3/calc.y
 +++ b/q3/calc.y
-@@ -20,6 +20,7 @@ void yyerror(const char<em> s);
+@@ -20,6 +20,7 @@ void yyerror(const char* s);
  %token QUIT
  %left '+' '-'
- %left '</em>' '/'
-+%left '^'</p>
-<p>%type<ival> exp</p>
-<p>@@ -41,6 +42,7 @@ exp: NUM      { <span class="math">\[ = $1; }
-     | exp '-' exp  { \]</span class="math"> = <span class="math">\(1 - \)</span class="math">3; }
-     | exp '*' exp  { <span class="math">\[ = $1 * $3; }
-     | exp '/' exp  { \]</span class="math"> = <span class="math">\(1 / \)</span class="math">3; }
-+    | exp '^' exp  { <span class="math">\($ = pow(\)</span class="math">1, $3); }
- ;</p>
-<p>%%
-```</p>
-<ul>
-<li>Extend the calculator to support parentheses, ‘(‘, and ‘)’. An
-    expression inside parentheses needs to be evaluated first, e.g.,
-    enter 2 * ( 3 + 2) in the calculator and it should return 10.</li>
-</ul>
-<p>```
-diff --git a/q3/calc.lex b/q3/calc.lex
+ %left '*' '/'
++%left '^'
+
+ %type&lt;ival&gt; exp
+
+@@ -41,6 +42,7 @@ exp: NUM      { $$ = $1; }
+     | exp '-' exp  { $$ = $1 - $3; }
+     | exp '*' exp  { $$ = $1 * $3; }
+     | exp '/' exp  { $$ = $1 / $3; }
++    | exp '^' exp  { $$ = pow($1, $3); }
+ ;
+
+ %%
+</code></pre>
+<p>Extend the calculator to support parentheses, ‘(‘, and ‘)’. An expression inside parentheses needs to be evaluated first, e.g., enter 2 * ( 3 + 2) in the calculator and it should return 10.</p>
+<p>Here's the patch to implement this:</p>
+<pre><code>diff --git a/q3/calc.lex b/q3/calc.lex
 index 5153c79..c20788f 100644
 --- a/q3/calc.lex
 +++ b/q3/calc.lex
 @@ -17,6 +17,8 @@
- "<em>"    {return '</em>';}
+ "*"    {return '*';}
  "/"    {return '/';}
  "^"    {return '^';}
 +"("    {return '(';}
 +")"    {return ')';}
- "quit" {return QUIT;}</p>
-<p>%%
+ "quit" {return QUIT;}
+
+ %%
 diff --git a/q3/calc.y b/q3/calc.y
 index a2451de..3e84c55 100644
 --- a/q3/calc.y
 +++ b/q3/calc.y
-@@ -18,6 +18,7 @@ void yyerror(const char* s);</p>
-<p>%token<ival> NUM
+@@ -18,6 +18,7 @@ void yyerror(const char* s);
+
+ %token&lt;ival&gt; NUM
  %token QUIT
 +%left '(' ')'
  %left '+' '-'
  %left '*' '/'
  %left '^'
 @@ -38,6 +39,7 @@ line: '\n'
- ;</p>
-<p>exp: NUM       { <span class="math">\[ = $1; }
-+    | '(' exp ')' { \]</span class="math"> = <span class="math">\(2; }
-     | exp '+' exp  { \)</span class="math"><span class="math">\( = \)</span class="math">1 + <span class="math">\(3; }
-     | exp '-' exp  { \)</span class="math"><span class="math">\( = \)</span class="math">1 - <span class="math">\(3; }
-     | exp '*' exp  { \)</span class="math"><span class="math">\( = \)</span class="math">1 * $3; }</p>
+ ;
+
+ exp: NUM       { $$ = $1; }
++    | '(' exp ')' { $$ = $2; }
+     | exp '+' exp  { $$ = $1 + $3; }
+     | exp '-' exp  { $$ = $1 - $3; }
+     | exp '*' exp  { $$ = $1 * $3; }
+</code></pre>
 <p>```</p>
     <HR/>
     <div class="footer">

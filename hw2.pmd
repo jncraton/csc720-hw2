@@ -204,7 +204,15 @@ is_equivalent(start, cnf)
 
 2.30 Use the pumping lemma to show that the following languages are not context free.
 
-a\. $\left\{ 0^{n}1^{n}0^{n}1^{n} \middle| n \geq 0 \right\}$
+a\. A = { 0ⁿ1ⁿ0ⁿ1ⁿ | n≥0 }
+
+This will be solved by applying a proof by contradiction and the pumping lemma for context-free languages.
+
+Assume that A is a context-free language. Let p be the pumping length from the pumping lemma for context-free languages. Let s be the string 0<sup>p</sup>1<sup>p</sup>0<sup>p</sup>1<sup>p</sup>. s is a member of A and |s| ≥ p, so the pumping lemma for context-free languages applies.
+
+The pumping lemma for context-free languages states that s can be partitioned as uvxyz such that uvⁱxyⁱz∈A for all i≥0. Additionally, |vy| > 0 and |vxy| ≤ p. When considering the possible partition schemes for s, we see that v or y must be either 0<sup>k</sup> or 1<sup>k</sup> as these are the only values that satisfy the conditions |vy| > 0 and |vxy| ≤ p. 
+
+The pumping lemma tells us that uvⁱxyⁱz∈A for all i≥0. Pumping either of the possible values for v or y to anything other than i=1 produces a string with an unbalanced number of 1s and 0s. This sting is not a member of the language, therefore, A is not a context-free language by contradiction.
 
 ## Problem 6 (10 points)
 
@@ -215,10 +223,55 @@ a.  Briefly describe how regular language is used for lexical analysis
 
 Regular language is commonly used in lexical analysis to convert segments of text (lexemes) into tokens. If a segment of text matches a token rule, it is converted to a token. Tokens have a both a name and a value.
 
+For example, take the following text from a c-like langauge:
+
+    if ( a == 12 ) { return 42 }
+
+A lexer may contain regular language rules to match against the string such as:
+
+    if becomes IF
+    return becomes RETURN
+    ( becomes OPEN_P
+    ) becomes CLOSE_P
+    == become IS_EQUAL
+    { becomes OPEN_B
+    } becomes CLOSE_B
+    \d+ becomes INT_LITERAL
+    * becomes NAME
+
+The lexer could then convert the string to a list of (name, value) duples such as:
+
+    (IF, 'if')
+    (OPEN_P, '(')
+    (NAME, 'a')
+    (IS_EQUAL, '==')
+    (INT_LITERAL, '12')
+    (CLOSE_P, ')')
+    (OPEN_B, '{')
+    (RETURN, 'return')
+    (INT_LITERAL, '42')
+    (CLOSE_B, '}')
+
+In this way the, the lexer uses regular language to convert lexemes matching a particular langage (12 and 42 are both INT_LITERALS) to a token representing that lexeme group.
+
 b.  Briefly describe how context free language is used for parsing
     (syntax analysis) in a compiler.
 
 Once tokenized, the syntax of a segment of text can be parsed for syntax analysis. The overall syntax of many common programming langauges is context-free, so the syntax is matched to a context-free grammar.
+
+Considering the above example, we may have grammar rules such as the following. Note that terminals here are the token names from above.
+
+    STMT -> IF_STMT
+    STMT -> RETURN_STMT
+    RETURN_STMT -> RETURN EXPR
+    IF_STMT -> IF CONDITION BLOCK
+    CONDITION -> OPEN_P EXPR CLOSE_P
+    BLOCK -> OPEN_B STMT CLOSE_B
+    EXPR -> EXPR OP EXPR
+    EXPR -> INT_LITERAL
+    OP -> IS_EQUAL
+
+These rules are used to parse the tokens into a parse tree that can be easily interpretted or compiled.
 
 ## Problem 7 (20 points)
 
@@ -242,7 +295,7 @@ A homework2.zip file has been posted in the class website. The zip file
 includes three folders, q1, q2, and q3. Each folder contains the
 necessary files to finish each question.
 
-## 7a **(4 points)** 
+## Problem 7a (4 points)
 
 When you use gcc compile a program, e.g., hello.c
 
@@ -256,11 +309,11 @@ files created by gcc using option –save-temps. Try
 and find out what intermediate output files can be produced by gcc.
 Briefly describe each intermediate output file.
 
-A typical C compilation pipeline is handled in 4 phases using 4 distinct tools:
+A typical C compilation pipeline is handled in 4 phases:
 
-### 1. Pre-processor
+### 1. Pre-processor (hello.i)
 
-The pre-processor expands macros and handle includes. In a nutshell, it takes care of anything starting with `#`. With `--save-temps` the output of this phase is stored in `hello.i`. This output is valid C code. Our `hello.c` program is still fundamentally the same with a lot of `#include` inlining:
+The pre-processor expands macros and handle includes. In a nutshell, it takes care of anything starting with `#`. With `--save-temps` the output of this phase is stored in `hello.i`. This output is valid C code. After this stage, our `hello.c` program is still fundamentally the same with a lot of `#include` inlining:
 
     # 1 "hello.c"
     # 1 "<built-in>"
@@ -276,7 +329,7 @@ The pre-processor expands macros and handle includes. In a nutshell, it takes ca
     }
 
 
-### 2. Compiler
+### 2. Compiler (hello.s)
 
 The compiler converts pre-processed C code into assembly instructions. It's worth noting that while an intermediate human-readable representation is handy, it isn't strictly necessary. Compilation could output machine code directly, but using intermediate assembly modularizes the tool chain. Also, because C allows inline assembly, you need a full assembler in either case. This intermediate representation also doesn't need to actually be assembly language instructions for the target platform. For example, LLVM uses a platform independent intermediate representation.
 
@@ -309,7 +362,7 @@ The output of this step is stored in `hello.s`, and is stored as assembly instru
     .ident	"GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609"
     .section	.note.GNU-stack,"",@progbits
 
-### 3. Assembler
+### 3. Assembler (hello.o)
 
 The assembler converts assembly instructions to machine code. The output of this stage is stored as `hello.o`. This stage is notable as this output is frequently generated as part of a "normal" build process. Typically, many C files are assembled and then linked into a single final executable.
 
@@ -386,9 +439,9 @@ Being machine code, we can't easily view .o files directly. GCC does include a t
        34:	08 00                	or     %al,(%rax)
      	...
 
-### 4. Linker
+### 4. Linker (hello)
 
-The linker merges object file(s) into a single final executable. It adds necessary bootstraping code to start execution, handles environment variables, command line arguments, and other things.
+The linker merges object file(s) into a single final executable. It adds necessary bootstraping code to start execution, handles environment variables, and grabs command line arguments among other tasks.
 
 It converts references to external code to the correct locations. The linker may run dynamically to call into dynamically loaded dependencies, or it can be run statically to include all dependencies directly in the final binary.
 
@@ -450,7 +503,7 @@ The output of this stage is the final executable, `hello`. This stage is also ha
     
     ... (snipped)
 
-## 7b **(8 points)**
+## Problem 7b (8 points)
 
 The flex file, calc.lex, is a simple calculator. You can compile the file with the following commands:
 
@@ -530,7 +583,7 @@ Here's the patch to implement this:
      	   yylval.ti.name =  (char *) strdup(yytext);
      	   printf("VARIABLE: %s LINES: %d\n", yylval.ti.name, yylval.ti.lineNumber);
 
-## 7c **(8 points)** 3) 
+## Problem 7c (8 points)**
 
 A flex file, calc.lex, a bison file, calc.y, and a Makefile are provide in homework2 q3 folder. You can compile the flex file and the bison file by running
 
@@ -543,94 +596,92 @@ of it using “quit”.
 
 Do the following and submitted your modified code:
 
--   Extend the calculator to support power operator, ‘\^’. Let x, y are
-    two numbers, ${x\hat{}y = x}^{y}$.
+Extend the calculator to support power operator, ‘\^’. Let x, y are two numbers, ${x\hat{}y = x}^{y}$.
 
-```
-diff --git a/q3/Makefile b/q3/Makefile
-index d002bb4..3f2fd68 100644
---- a/q3/Makefile
-+++ b/q3/Makefile
-@@ -7,7 +7,7 @@ lex.yy.c: calc.lex calc.tab.h
- 	flex calc.lex
- 
- calc: lex.yy.c calc.tab.c calc.tab.h
--	gcc -o calc calc.tab.c lex.yy.c -lfl
-+	gcc -o calc calc.tab.c lex.yy.c -lfl -lm
- 
- test: calc
- 	echo "1+1" | ./calc | grep 2
-diff --git a/q3/calc.lex b/q3/calc.lex
-index 975e718..5153c79 100644
---- a/q3/calc.lex
-+++ b/q3/calc.lex
-@@ -16,6 +16,7 @@
- "-"	{return '-';}
- "*"	{return '*';}
- "/"	{return '/';}
-+"^"	{return '^';}
- "quit"	{return QUIT;}
- 
- %%
-diff --git a/q3/calc.y b/q3/calc.y
-index 29a338d..a2451de 100644
---- a/q3/calc.y
-+++ b/q3/calc.y
-@@ -20,6 +20,7 @@ void yyerror(const char* s);
- %token QUIT
- %left '+' '-'
- %left '*' '/'
-+%left '^'
- 
- %type<ival> exp
- 
-@@ -41,6 +42,7 @@ exp: NUM		{ $$ = $1; }
-     | exp '-' exp	{ $$ = $1 - $3; }
-     | exp '*' exp	{ $$ = $1 * $3; }
-     | exp '/' exp	{ $$ = $1 / $3; }
-+    | exp '^' exp	{ $$ = pow($1, $3); }
- ;
- 
- %%
-```
+Here's the patch to implement this:
 
--   Extend the calculator to support parentheses, ‘(‘, and ‘)’. An
-    expression inside parentheses needs to be evaluated first, e.g.,
-    enter 2 \* ( 3 + 2) in the calculator and it should return 10.
+    diff --git a/q3/Makefile b/q3/Makefile
+    index d002bb4..3f2fd68 100644
+    --- a/q3/Makefile
+    +++ b/q3/Makefile
+    @@ -7,7 +7,7 @@ lex.yy.c: calc.lex calc.tab.h
+     	flex calc.lex
+     
+     calc: lex.yy.c calc.tab.c calc.tab.h
+    -	gcc -o calc calc.tab.c lex.yy.c -lfl
+    +	gcc -o calc calc.tab.c lex.yy.c -lfl -lm
+     
+     test: calc
+     	echo "1+1" | ./calc | grep 2
+    diff --git a/q3/calc.lex b/q3/calc.lex
+    index 975e718..5153c79 100644
+    --- a/q3/calc.lex
+    +++ b/q3/calc.lex
+    @@ -16,6 +16,7 @@
+     "-"	{return '-';}
+     "*"	{return '*';}
+     "/"	{return '/';}
+    +"^"	{return '^';}
+     "quit"	{return QUIT;}
+     
+     %%
+    diff --git a/q3/calc.y b/q3/calc.y
+    index 29a338d..a2451de 100644
+    --- a/q3/calc.y
+    +++ b/q3/calc.y
+    @@ -20,6 +20,7 @@ void yyerror(const char* s);
+     %token QUIT
+     %left '+' '-'
+     %left '*' '/'
+    +%left '^'
+     
+     %type<ival> exp
+     
+    @@ -41,6 +42,7 @@ exp: NUM		{ $$ = $1; }
+         | exp '-' exp	{ $$ = $1 - $3; }
+         | exp '*' exp	{ $$ = $1 * $3; }
+         | exp '/' exp	{ $$ = $1 / $3; }
+    +    | exp '^' exp	{ $$ = pow($1, $3); }
+     ;
+     
+     %%
 
-```
-diff --git a/q3/calc.lex b/q3/calc.lex
-index 5153c79..c20788f 100644
---- a/q3/calc.lex
-+++ b/q3/calc.lex
-@@ -17,6 +17,8 @@
- "*"	{return '*';}
- "/"	{return '/';}
- "^"	{return '^';}
-+"("	{return '(';}
-+")"	{return ')';}
- "quit"	{return QUIT;}
- 
- %%
-diff --git a/q3/calc.y b/q3/calc.y
-index a2451de..3e84c55 100644
---- a/q3/calc.y
-+++ b/q3/calc.y
-@@ -18,6 +18,7 @@ void yyerror(const char* s);
- 
- %token<ival> NUM
- %token QUIT
-+%left '(' ')'
- %left '+' '-'
- %left '*' '/'
- %left '^'
-@@ -38,6 +39,7 @@ line: '\n'
- ;
- 
- exp: NUM		{ $$ = $1; }
-+    | '(' exp ')' { $$ = $2; }
-     | exp '+' exp	{ $$ = $1 + $3; }
-     | exp '-' exp	{ $$ = $1 - $3; }
-     | exp '*' exp	{ $$ = $1 * $3; }
+Extend the calculator to support parentheses, ‘(‘, and ‘)’. An expression inside parentheses needs to be evaluated first, e.g., enter 2 \* ( 3 + 2) in the calculator and it should return 10.
+
+Here's the patch to implement this:
+
+    diff --git a/q3/calc.lex b/q3/calc.lex
+    index 5153c79..c20788f 100644
+    --- a/q3/calc.lex
+    +++ b/q3/calc.lex
+    @@ -17,6 +17,8 @@
+     "*"	{return '*';}
+     "/"	{return '/';}
+     "^"	{return '^';}
+    +"("	{return '(';}
+    +")"	{return ')';}
+     "quit"	{return QUIT;}
+     
+     %%
+    diff --git a/q3/calc.y b/q3/calc.y
+    index a2451de..3e84c55 100644
+    --- a/q3/calc.y
+    +++ b/q3/calc.y
+    @@ -18,6 +18,7 @@ void yyerror(const char* s);
+     
+     %token<ival> NUM
+     %token QUIT
+    +%left '(' ')'
+     %left '+' '-'
+     %left '*' '/'
+     %left '^'
+    @@ -38,6 +39,7 @@ line: '\n'
+     ;
+     
+     exp: NUM		{ $$ = $1; }
+    +    | '(' exp ')' { $$ = $2; }
+         | exp '+' exp	{ $$ = $1 + $3; }
+         | exp '-' exp	{ $$ = $1 - $3; }
+         | exp '*' exp	{ $$ = $1 * $3; }
 
 ```
