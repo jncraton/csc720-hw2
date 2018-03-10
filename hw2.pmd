@@ -275,25 +275,7 @@ These rules are used to parse the tokens into a parse tree that can be easily in
 
 ## Problem 7 (20 points)
 
-Programming Assignments
-
-This programming assignment assumes you have a Linux compiling
-environment. If you don’t have one, setting up a Linux machine in a
-VirtualBox or VMware Player is a quick way to get a Linux development
-environment. If you need help to set up a Linux virtual machine, let me
-know.
-
-Assume you have an Ubuntu Linux, you need to install additional packages
-to complete the lab. These packages include, flex and bison. You can
-install these packages by running the following commands:
-
-&gt;apt-get install flex
-
-&gt;apt-get install bison
-
-A homework2.zip file has been posted in the class website. The zip file
-includes three folders, q1, q2, and q3. Each folder contains the
-necessary files to finish each question.
+The completed code for this assignment is in the [q1](https://github.com/jncraton/csc720-hw2/tree/master/q1), [q2](https://github.com/jncraton/csc720-hw2/tree/master/q2), and [q3](https://github.com/jncraton/csc720-hw2/tree/master/q3) directories.
 
 ## Problem 7a (4 points)
 
@@ -313,7 +295,7 @@ A typical C compilation pipeline is handled in 4 phases:
 
 ### 1. Pre-processor (hello.i)
 
-The pre-processor expands macros and handle includes. In a nutshell, it takes care of anything starting with `#`. With `--save-temps` the output of this phase is stored in `hello.i`. This output is valid C code. After this stage, our `hello.c` program is still fundamentally the same with a lot of `#include` inlining:
+The pre-processor expands macros and handles includes. In a nutshell, it takes care of anything starting with `#`. With `--save-temps` the output of this phase is stored in `hello.i`. This output is valid C code. After this stage, our `hello.c` program is still fundamentally the same with a lot of `#include` inlining:
 
     # 1 "hello.c"
     # 1 "<built-in>"
@@ -516,7 +498,7 @@ Do the following and submitted your modified code:
 
 ### Add division and subtraction to the calculator.
 
-Here's the patch to implement this:
+We need to add rules to the lexer for these operations. Here's the patch to implement this:
 
     diff --git a/q2/calc.lex b/q2/calc.lex
     index 101c022..01e6612 100644
@@ -536,7 +518,7 @@ Here's the patch to implement this:
 
 Make sure that you set the lineNumber variable in yylval.ti for each token and print out the line count when you print out variable information.
 
-Here's the patch to implement this:
+We need to update the block that handles newlines to increment a counter, and update the variable display to also show this counter. Here's the patch to implement this:
 
     diff --git a/q2/calc.lex b/q2/calc.lex
     index 01e6612..b91c8a0 100644
@@ -567,7 +549,7 @@ Here's the patch to implement this:
 
 The variables must start with an alphabetic character or '\_' character and may be followed by 0 or more alphabetic/numerical/'\_'/'-' characters.
 
-Here's the patch to implement this:
+We just need to extend the regex to meet these requirements. Here's the patch to implement this:
 
     diff --git a/q2/calc.lex b/q2/calc.lex
     index b91c8a0..9857abd 100644
@@ -583,7 +565,7 @@ Here's the patch to implement this:
      	   yylval.ti.name =  (char *) strdup(yytext);
      	   printf("VARIABLE: %s LINES: %d\n", yylval.ti.name, yylval.ti.lineNumber);
 
-## Problem 7c (8 points)**
+## Problem 7c (8 points)
 
 A flex file, calc.lex, a bison file, calc.y, and a Makefile are provide in homework2 q3 folder. You can compile the flex file and the bison file by running
 
@@ -596,7 +578,11 @@ of it using “quit”.
 
 Do the following and submitted your modified code:
 
-Extend the calculator to support power operator, ‘\^’. Let x, y are two numbers, ${x\hat{}y = x}^{y}$.
+### Extend the calculator to support the power operator
+
+Let x, y are two numbers, ${x\hat{}y = x}^{y}$.
+
+We need to add a rule to the lexer for power and a rule to the parser to actually do the math. We also need explicitly link against libm using the `-lm` gcc flag since we are calling the `pow` function that lives there.
 
 Here's the patch to implement this:
 
@@ -648,7 +634,7 @@ Here's the patch to implement this:
 
 Extend the calculator to support parentheses, ‘(‘, and ‘)’. An expression inside parentheses needs to be evaluated first, e.g., enter 2 \* ( 3 + 2) in the calculator and it should return 10.
 
-Here's the patch to implement this:
+We need to add parens to the lexer, and properly handle them in the parse at the highest priority. Here's the patch to implement this:
 
     diff --git a/q3/calc.lex b/q3/calc.lex
     index 5153c79..c20788f 100644
