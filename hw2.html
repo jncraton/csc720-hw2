@@ -1,0 +1,1224 @@
+
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/LaTeX", "output/HTML-CSS"],
+    "HTML-CSS": { availableFonts: ["TeX"] }
+    });
+</script>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<style>
+
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Raleway Light'), local('Raleway-Light'), url(http://fonts.gstatic.com/s/raleway/v9/-_Ctzj9b56b8RgXW8FArifk_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Raleway'), url(http://fonts.gstatic.com/s/raleway/v9/0dTEPzkLWceF7z0koJaX1A.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Raleway SemiBold'), local('Raleway-SemiBold'), url(http://fonts.gstatic.com/s/raleway/v9/xkvoNo9fC8O2RDydKj12b_k_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
+}
+html {
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+body {
+  margin: 0;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+audio,
+canvas,
+progress,
+video {
+  display: inline-block; /* 1 */
+  vertical-align: baseline; /* 2 */
+}
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+[hidden],
+template {
+  display: none;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+b,
+strong {
+  font-weight: bold;
+}
+dfn {
+  font-style: italic;
+}
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+mark {
+  background: #ff0;
+  color: #000;
+}
+small {
+  font-size: 80%;
+}
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+img {
+  border: 0;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+figure {
+  margin: 1em 40px;
+}
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+pre {
+  overflow: auto;
+}
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit; /* 1 */
+  font: inherit; /* 2 */
+  margin: 0; /* 3 */
+}
+button {
+  overflow: visible;
+}
+button,
+select {
+  text-transform: none;
+}
+button,
+html input[type="button"], /* 1 */
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button; /* 2 */
+  cursor: pointer; /* 3 */
+}
+button[disabled],
+html input[disabled] {
+  cursor: default;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+input {
+  line-height: normal;
+}
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+input[type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box; /* 2 */
+  box-sizing: content-box;
+}
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+legend {
+  border: 0; /* 1 */
+  padding: 0; /* 2 */
+}
+textarea {
+  overflow: auto;
+}
+optgroup {
+  font-weight: bold;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+td,
+th {
+  padding: 0;
+}
+
+
+/*
+* Skeleton V2.0.4
+* Copyright 2014, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 12/29/2014
+*/
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box; }
+.column,
+.columns {
+  width: 100%;
+  float: left;
+  box-sizing: border-box; }
+@media (min-width: 400px) {
+  .container {
+    width: 85%;
+    padding: 0; }
+}
+@media (min-width: 550px) {
+  .container {
+    width: 80%; }
+  .column,
+  .columns {
+    margin-left: 4%; }
+  .column:first-child,
+  .columns:first-child {
+    margin-left: 0; }
+
+  .one.column,
+  .one.columns                    { width: 4.66666666667%; }
+  .two.columns                    { width: 13.3333333333%; }
+  .three.columns                  { width: 22%;            }
+  .four.columns                   { width: 30.6666666667%; }
+  .five.columns                   { width: 39.3333333333%; }
+  .six.columns                    { width: 48%;            }
+  .seven.columns                  { width: 56.6666666667%; }
+  .eight.columns                  { width: 65.3333333333%; }
+  .nine.columns                   { width: 74.0%;          }
+  .ten.columns                    { width: 82.6666666667%; }
+  .eleven.columns                 { width: 91.3333333333%; }
+  .twelve.columns                 { width: 100%; margin-left: 0; }
+
+  .one-third.column               { width: 30.6666666667%; }
+  .two-thirds.column              { width: 65.3333333333%; }
+
+  .one-half.column                { width: 48%; }
+
+  /* Offsets */
+  .offset-by-one.column,
+  .offset-by-one.columns          { margin-left: 8.66666666667%; }
+  .offset-by-two.column,
+  .offset-by-two.columns          { margin-left: 17.3333333333%; }
+  .offset-by-three.column,
+  .offset-by-three.columns        { margin-left: 26%;            }
+  .offset-by-four.column,
+  .offset-by-four.columns         { margin-left: 34.6666666667%; }
+  .offset-by-five.column,
+  .offset-by-five.columns         { margin-left: 43.3333333333%; }
+  .offset-by-six.column,
+  .offset-by-six.columns          { margin-left: 52%;            }
+  .offset-by-seven.column,
+  .offset-by-seven.columns        { margin-left: 60.6666666667%; }
+  .offset-by-eight.column,
+  .offset-by-eight.columns        { margin-left: 69.3333333333%; }
+  .offset-by-nine.column,
+  .offset-by-nine.columns         { margin-left: 78.0%;          }
+  .offset-by-ten.column,
+  .offset-by-ten.columns          { margin-left: 86.6666666667%; }
+  .offset-by-eleven.column,
+  .offset-by-eleven.columns       { margin-left: 95.3333333333%; }
+
+  .offset-by-one-third.column,
+  .offset-by-one-third.columns    { margin-left: 34.6666666667%; }
+  .offset-by-two-thirds.column,
+  .offset-by-two-thirds.columns   { margin-left: 69.3333333333%; }
+
+  .offset-by-one-half.column,
+  .offset-by-one-half.columns     { margin-left: 52%; }
+
+}
+html {
+  font-size: 62.5%; }
+body {
+  font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #222; }
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 300; }
+h1 { font-size: 3.6rem; line-height: 1.2;  letter-spacing: -.1rem;}
+h2 { font-size: 3.4rem; line-height: 1.25; letter-spacing: -.1rem; }
+h3 { font-size: 3.2rem; line-height: 1.3;  letter-spacing: -.1rem; }
+h4 { font-size: 2.8rem; line-height: 1.35; letter-spacing: -.08rem; }
+h5 { font-size: 2.4rem; line-height: 1.5;  letter-spacing: -.05rem; }
+h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
+
+p {
+  margin-top: 0; }
+a {
+  color: #1EAEDB; }
+a:hover {
+  color: #0FA0CE; }
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  display: inline-block;
+  height: 38px;
+  padding: 0 30px;
+  color: #555;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  box-sizing: border-box; }
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+  color: #333;
+  border-color: #888;
+  outline: 0; }
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+  color: #FFF;
+  background-color: #33C3F0;
+  border-color: #33C3F0; }
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+  color: #FFF;
+  background-color: #1EAEDB;
+  border-color: #1EAEDB; }
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea,
+select {
+  height: 38px;
+  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+  background-color: #fff;
+  border: 1px solid #D1D1D1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box; }
+/* Removes awkward default styles on some inputs for iOS */
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none; }
+textarea {
+  min-height: 65px;
+  padding-top: 6px;
+  padding-bottom: 6px; }
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  border: 1px solid #33C3F0;
+  outline: 0; }
+label,
+legend {
+  display: block;
+  margin-bottom: .5rem;
+  font-weight: 600; }
+fieldset {
+  padding: 0;
+  border-width: 0; }
+input[type="checkbox"],
+input[type="radio"] {
+  display: inline; }
+label > .label-body {
+  display: inline-block;
+  margin-left: .5rem;
+  font-weight: normal; }
+ul {
+  list-style: circle inside; }
+ol {
+  list-style: decimal inside; }
+ol, ul {
+  padding-left: 0;
+  margin-top: 0; }
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin: 1.5rem 0 1.5rem 3rem;
+  font-size: 90%; }
+li {
+  margin-bottom: 1rem; }
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #E1E1E1; }
+th:first-child,
+td:first-child {
+  padding-left: 0; }
+th:last-child,
+td:last-child {
+  padding-right: 0; }
+button,
+.button {
+  margin-bottom: 1rem; }
+input,
+textarea,
+select,
+fieldset {
+  margin-bottom: 1.5rem; }
+pre,
+blockquote,
+dl,
+figure,
+table,
+p,
+ul,
+ol,
+form {
+  margin-bottom: 2.5rem; }
+.u-full-width {
+  width: 100%;
+  box-sizing: border-box; }
+.u-max-full-width {
+  max-width: 100%;
+  box-sizing: border-box; }
+.u-pull-right {
+  float: right; }
+.u-pull-left {
+  float: left; }
+hr {
+  margin-top: 3rem;
+  margin-bottom: 3.5rem;
+  border-width: 0;
+  border-top: 1px solid #E1E1E1; }
+.container:after,
+.row:after,
+.u-cf {
+  content: "";
+  display: table;
+  clear: both; }
+
+pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  color: #333;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+code,
+kbd,
+pre,
+samp {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+
+@media (min-width: 400px) {}
+@media (min-width: 550px) {}
+@media (min-width: 750px) {}
+@media (min-width: 1000px) {}
+@media (min-width: 1200px) {}
+
+</style>
+
+<style>
+.hll { background-color: #ffffcc }
+.c { color: #408080; font-style: italic } /* Comment */
+.err { border: 1px solid #FF0000 } /* Error */
+.k { color: #008000; font-weight: bold } /* Keyword */
+.o { color: #666666 } /* Operator */
+.ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.cp { color: #BC7A00 } /* Comment.Preproc */
+.cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.c1 { color: #408080; font-style: italic } /* Comment.Single */
+.cs { color: #408080; font-style: italic } /* Comment.Special */
+.gd { color: #A00000 } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #FF0000 } /* Generic.Error */
+.gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.gi { color: #00A000 } /* Generic.Inserted */
+.go { color: #888888 } /* Generic.Output */
+.gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.gt { color: #0044DD } /* Generic.Traceback */
+.kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #008000 } /* Keyword.Pseudo */
+.kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #B00040 } /* Keyword.Type */
+.m { color: #666666 } /* Literal.Number */
+.s { color: #BA2121 } /* Literal.String */
+.na { color: #7D9029 } /* Name.Attribute */
+.nb { color: #008000 } /* Name.Builtin */
+.nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.no { color: #880000 } /* Name.Constant */
+.nd { color: #AA22FF } /* Name.Decorator */
+.ni { color: #999999; font-weight: bold } /* Name.Entity */
+.ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.nf { color: #0000FF } /* Name.Function */
+.nl { color: #A0A000 } /* Name.Label */
+.nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.nt { color: #008000; font-weight: bold } /* Name.Tag */
+.nv { color: #19177C } /* Name.Variable */
+.ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.w { color: #bbbbbb } /* Text.Whitespace */
+.mb { color: #666666 } /* Literal.Number.Bin */
+.mf { color: #666666 } /* Literal.Number.Float */
+.mh { color: #666666 } /* Literal.Number.Hex */
+.mi { color: #666666 } /* Literal.Number.Integer */
+.mo { color: #666666 } /* Literal.Number.Oct */
+.sb { color: #BA2121 } /* Literal.String.Backtick */
+.sc { color: #BA2121 } /* Literal.String.Char */
+.sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.s2 { color: #BA2121 } /* Literal.String.Double */
+.se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.sh { color: #BA2121 } /* Literal.String.Heredoc */
+.si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.sx { color: #008000 } /* Literal.String.Other */
+.sr { color: #BB6688 } /* Literal.String.Regex */
+.s1 { color: #BA2121 } /* Literal.String.Single */
+.ss { color: #19177C } /* Literal.String.Symbol */
+.bp { color: #008000 } /* Name.Builtin.Pseudo */
+.vc { color: #19177C } /* Name.Variable.Class */
+.vg { color: #19177C } /* Name.Variable.Global */
+.vi { color: #19177C } /* Name.Variable.Instance */
+.il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+
+
+
+
+<style>
+h1.title {margin-top : 20px}
+img {max-width : 100%}
+
+#From nbconvert
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+</style>
+
+</HEAD>
+<BODY>
+    <div class ="container">
+        <div class = "row">
+            <div class = "col-md-12 twelve columns">
+<H1 class = "title"> CSC720 Homework 2</H1>
+
+<p><strong>Author:</strong>  Jon Craton <BR/>
+<strong>Date:</strong>  March 13, 2018 <BR/></p>
+<p>Due Date: Tuesday, Mar 13, 2018 By Midnight</p>
+<h2>Problem 1 (20 points)</h2>
+<p>1.29 Use the pumping lemma to show that the following languages are not regular.</p>
+<p>a. A₁ = { 0ⁿ1ⁿ2ⁿ|n ≥ 0 }</p>
+<p>This will be solved by applying a proof by contradiction and the pumping lemma.</p>
+<p>Assume that A is a regular language. Let p be the pumping length from the pumping lemma. Let s be the string 0<sup>p</sup>1<sup>p</sup>2<sup>p</sup>. s is a member of A and |s| ≥ p, so the pumping lemma for regular languages applies.</p>
+<p>The pumping lemma for regular languages states that s can be partitioned as xyz such that xyⁱz∈A where i≥0. Additionally, |y| &gt; 0 and |xy| ≤ p. When considering the possible partition schemes for s, we see that only y=0<sup>k</sup> where k&gt;0 and k≤p satisfies the conditions that |y| &gt; 0 and |xy| ≤ p.</p>
+<p>The pumping lemma tells us that xyⁱz∈A for all i≥0. However, for i=0, the zero component is completely removed from our string while 1<sup>k</sup>2<sup>k</sup> remains. The generated string is not a member of the language for all k, therefore, A is not a regular language by contradiction.</p>
+<p>b. A₂ = { www|w ∈ {a,b}* }</p>
+<p>This will be solved by applying a proof by contradiction and the pumping lemma.</p>
+<p>Assume that A is a regular language. Let p be the pumping length from the pumping lemma. Let s be the string a<sup>p</sup>a<sup>p</sup>a<sup>p</sup>. s is a member of A and |s| ≥ p, so the pumping lemma for regular languages applies.</p>
+<p>The pumping lemma for regular languages states that s can be partitioned as xyz such that xyⁱz∈A where i≥0. Additionally, |y| &gt; 0 and |xy| ≤ p. When considering the possible partition schemes for s, we see that only x=ɛ,y=a<sup>k</sup>,z=a<sup>k</sup>a<sup>k</sup> where k&gt;0 and k≤p satisfies the conditions that |y| &gt; 0 and |xy| ≤ p.</p>
+<p>The pumping lemma tells us that xyⁱz∈A for all i≥0. However, for i=0, the first copy of our language w is completely removed from our string while a<sup>k</sup>a<sup>k</sup> remains. The generated string is not a member of the language for all k (when p=1, the string contains a number of a's that is not a multiple of 3), therefore, A is not a regular language by contradiction.</p>
+<h2>Problem 2 (20 points)</h2>
+<p>2.4 Give context-free grammars that generate the following languages. In all parts the alphabet Σ is {0, 1}.</p>
+<p>b. {w | w starts and ends with the same symbol}</p>
+
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nltk</span> <span class="kn">import</span> <span class="n">CFG</span>
+
+<span class="n">grammar</span> <span class="o">=</span> <span class="n">CFG</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">S -&gt; &#39;0&#39; Any &#39;0&#39;</span>
+<span class="s2">S -&gt; &#39;1&#39; Any &#39;1&#39;</span>
+<span class="s2">S -&gt; &#39;0&#39; | &#39;1&#39;</span>
+<span class="s2">Any -&gt; &#39;0&#39; Any</span>
+<span class="s2">Any -&gt; &#39;1&#39; Any</span>
+<span class="s2">Any -&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">nltk.parse.generate</span> <span class="kn">import</span> <span class="n">generate</span>
+
+<span class="k">print</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">generate</span><span class="p">(</span><span class="n">grammar</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">5</span><span class="p">)])</span>
+</pre></div>
+
+<div class="highlight"><pre>
+[&#39;00000&#39;, &#39;00010&#39;, &#39;0000&#39;, &#39;00100&#39;,
+&#39;00110&#39;, &#39;0010&#39;, &#39;000&#39;, &#39;01000&#39;,
+&#39;01010&#39;, &#39;0100&#39;, &#39;01100&#39;, &#39;01110&#39;,
+&#39;0110&#39;, &#39;010&#39;, &#39;00&#39;, &#39;10001&#39;,
+&#39;10011&#39;, &#39;1001&#39;, &#39;10101&#39;, &#39;10111&#39;,
+&#39;1011&#39;, &#39;101&#39;, &#39;11001&#39;, &#39;11011&#39;,
+&#39;1101&#39;, &#39;11101&#39;, &#39;11111&#39;, &#39;1111&#39;,
+&#39;111&#39;, &#39;11&#39;, &#39;0&#39;, &#39;1&#39;]
+</pre></div>
+
+<p>c. {w | the length of w is odd|</p>
+
+<div class="highlight"><pre><span></span><span class="n">grammar</span> <span class="o">=</span> <span class="n">CFG</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">S -&gt; OneCount EvenCount</span>
+<span class="s2">OneCount -&gt; &#39;0&#39; | &#39;1&#39;</span>
+<span class="s2">EvenCount -&gt; OneCount OneCount</span>
+<span class="s2">EvenCount -&gt; </span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">([</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">generate</span><span class="p">(</span><span class="n">grammar</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">5</span><span class="p">)])</span>
+</pre></div>
+
+<div class="highlight"><pre>
+[&#39;000&#39;, &#39;001&#39;, &#39;010&#39;, &#39;011&#39;,
+&#39;0&#39;, &#39;100&#39;, &#39;101&#39;, &#39;110&#39;,
+&#39;111&#39;, &#39;1&#39;]
+</pre></div>
+
+<h2>Problem 3 (10 points)</h2>
+<p>Figure 2.17 shows a push down automata which recognizes {a^i^b^j^c^k^| i, j, k≥0 and i=j or i=k}. Please design and draw a new push down automata which recognizes {a^i^b^j^c^k^| i, j, k≥0 and i≥j or i≥k}.</p>
+<p><img alt="" src="./media/image1.png" /></p>
+<p>Here's the orignal in JFLAP:</p>
+<p><img alt="" src="pda.png" /></p>
+<p>Basically, this needs to be amended to also accept i &gt; j or i &gt; k. Let's make sure the orignal does what we expect first:</p>
+<p><img alt="" src="pda-test.png" /></p>
+<p>Now we just need to add a few transitions to allow the machine to be able to loop after it has met the desired conditions:</p>
+<p><img alt="" src="pda-adj.png" /></p>
+<p>Now we see that our test for the new mode are passing:</p>
+<p><img alt="" src="pda-adj-test.png" /></p>
+<h2>Problem 4 (10 points)</h2>
+<p>2.14 Convert the following CFG into an equivalent CFG in Chomsky normal form, using the procedure given in Theorem 2.9.</p>
+<pre><code>A→BAB|B|ε
+B→00|ε
+</code></pre>
+<p>Step 1: Rename start variable</p>
+<pre><code>A₀→A
+A→BAB|B|ε
+B→00|ε
+</code></pre>
+<p>Step 2: Remove ε rules</p>
+<p>For B:</p>
+<pre><code>A₀→A
+A→BAB|B|ε|A
+B→00
+</code></pre>
+<p>Then for A:</p>
+<pre><code>A₀→A
+A→BAB|B|A|BB
+B→00
+</code></pre>
+<p>We are allowed an ε rule for the start state, and in this case we need it.</p>
+<pre><code>A₀→A|ε
+A→BAB|B|A|BB
+B→00
+</code></pre>
+<p>Step 3: Remove unit rules</p>
+<p>A→A:</p>
+<pre><code>A₀→A|ε
+A→BAB|B|BB
+B→00
+</code></pre>
+<p>A→B:</p>
+<pre><code>A₀→A|ε
+A→BAB|00|BB
+B→00
+</code></pre>
+<p>A₀→A:</p>
+<pre><code>A₀→BAB|00|BB|ε
+A→BAB|00|BB
+B→00
+</code></pre>
+<p>Step 4: Convert rules to proper form</p>
+<pre><code>A₀→BB₁|00|BB|ε
+A→BB₁|00|BB
+B₁→AB
+B→00
+</code></pre>
+<p>I'm not sure if "00" counts as a single non-terminal in this case. Just in case it does not, I'll create separate rules so that "0" is the only non-terminal.</p>
+<pre><code>A₀→BB₁|C|BB|ε
+A→BB₁|C|BB
+B₁→AB
+B→C
+C→ZZ
+Z→0
+</code></pre>
+<p>Just to check our work, let's weakly verify that the starting form and CNF generate the same language:</p>
+
+<div class="highlight"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="n">CFG</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">A -&gt; B A B | B |</span>
+<span class="s2">B -&gt; &#39;0&#39; &#39;0&#39;|</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">cnf</span> <span class="o">=</span> <span class="n">CFG</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">A0 -&gt; B B1 | C | B B |</span>
+<span class="s2">A  -&gt; B B1 | C | B B</span>
+<span class="s2">B1 -&gt; A B</span>
+<span class="s2">B  -&gt; C</span>
+<span class="s2">C  -&gt; Z Z</span>
+<span class="s2">Z  -&gt; &#39;0&#39;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">nltk.parse.chart</span> <span class="kn">import</span> <span class="n">ChartParser</span>
+
+<span class="k">def</span> <span class="nf">is_equivalent</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">flipped</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">  Quick check to see if two grammars are equivalent.</span>
+
+<span class="sd">  There&#39;s likely a proper algorithm for formally verifying that two </span>
+<span class="sd">  grammars are equivelent. This doesn&#39;t attempt anything like that.</span>
+
+<span class="sd">  It simply creates a number of utterances with grammar a and confirms</span>
+<span class="sd">  they can be parsed by grammar b. This function cannot guarantee that</span>
+<span class="sd">  two grammars are equivalent, but if it returns False, the grammars are</span>
+<span class="sd">  definitely different.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">parser</span> <span class="o">=</span> <span class="n">ChartParser</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+  
+  <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">generate</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">s</span><span class="p">)))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Unable to parse </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">s</span><span class="p">)</span>
+      <span class="k">return</span> <span class="bp">False</span>
+
+  <span class="k">return</span> <span class="n">flipped</span> <span class="ow">or</span> <span class="n">is_equivalent</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">flipped</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">is_equivalent</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">cnf</span><span class="p">)</span>
+</pre></div>
+
+<div class="highlight"><pre>
+True
+</pre></div>
+
+<h2>Problem 5 (10 points)</h2>
+<p>2.30 Use the pumping lemma to show that the following languages are not context free.</p>
+<p>a. <span class="math">\(\left\{ 0^{n}1^{n}0^{n}1^{n} \middle| n \geq 0 \right\}\)</span class="math"></p>
+<h2>Problem 6 (10 points)</h2>
+<p>Answer the following two questions:</p>
+<p>a.  Briefly describe how regular language is used for lexical analysis
+    in a compiler.</p>
+<p>Regular language is commonly used in lexical analysis to convert segments of text (lexemes) into tokens. If a segment of text matches a token rule, it is converted to a token. Tokens have a both a name and a value.</p>
+<p>b.  Briefly describe how context free language is used for parsing
+    (syntax analysis) in a compiler.</p>
+<p>Once tokenized, the syntax of a segment of text can be parsed for syntax analysis. The overall syntax of many common programming langauges is context-free, so the syntax is matched to a context-free grammar.</p>
+<h2>Problem 7 (20 points)</h2>
+<p>Programming Assignments</p>
+<p>This programming assignment assumes you have a Linux compiling
+environment. If you don’t have one, setting up a Linux machine in a
+VirtualBox or VMware Player is a quick way to get a Linux development
+environment. If you need help to set up a Linux virtual machine, let me
+know.</p>
+<p>Assume you have an Ubuntu Linux, you need to install additional packages
+to complete the lab. These packages include, flex and bison. You can
+install these packages by running the following commands:</p>
+<p>&gt;apt-get install flex</p>
+<p>&gt;apt-get install bison</p>
+<p>A homework2.zip file has been posted in the class website. The zip file
+includes three folders, q1, q2, and q3. Each folder contains the
+necessary files to finish each question.</p>
+<h2>7a <strong>(4 points)</strong></h2>
+<p>When you use gcc compile a program, e.g., hello.c</p>
+<p>&gt;gcc hello.c –o hello</p>
+<p>It will create a binary file. You can also check the temporary output
+files created by gcc using option –save-temps. Try</p>
+<p>&gt;gcc hello.c –o hello –save-temps</p>
+<p>and find out what intermediate output files can be produced by gcc.
+Briefly describe each intermediate output file.</p>
+<p>A typical C compilation pipeline is handled in 4 phases using 4 distinct tools:</p>
+<h3>1. Pre-processor</h3>
+<p>The pre-processor expands macros and handle includes. In a nutshell, it takes care of anything starting with <code>#</code>. With <code>--save-temps</code> the output of this phase is stored in <code>hello.i</code>. This output is valid C code. Our <code>hello.c</code> program is still fundamentally the same with a lot of <code>#include</code> inlining:</p>
+<pre><code># 1 "hello.c"
+# 1 "&lt;built-in&gt;"
+# 1 "&lt;command-line&gt;"
+# 1 "/usr/include/stdc-predef.h" 1 3 4
+# 1 "&lt;command-line&gt;" 2
+
+... (trimmed ~1900 lines)
+
+void main()
+{
+ printf("hello world\n");
+}
+</code></pre>
+<h3>2. Compiler</h3>
+<p>The compiler converts pre-processed C code into assembly instructions. It's worth noting that while an intermediate human-readable representation is handy, it isn't strictly necessary. Compilation could output machine code directly, but using intermediate assembly modularizes the tool chain. Also, because C allows inline assembly, you need a full assembler in either case. This intermediate representation also doesn't need to actually be assembly language instructions for the target platform. For example, LLVM uses a platform independent intermediate representation.</p>
+<p>The output of this step is stored in <code>hello.s</code>, and is stored as assembly instructions still viewable as text:</p>
+<pre><code>.file   "hello.c"
+.section    .rodata
+.LC0:
+.string "hello world"
+.text
+.globl  main
+.type   main, @function
+main:
+.LFB2:
+.cfi_startproc
+pushq   %rbp
+.cfi_def_cfa_offset 16
+.cfi_offset 6, -16
+movq    %rsp, %rbp
+.cfi_def_cfa_register 6
+movl    $.LC0, %edi
+call    puts
+nop
+popq    %rbp
+.cfi_def_cfa 7, 8
+ret
+.cfi_endproc
+.LFE2:
+.size   main, .-main
+.ident  "GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.9) 5.4.0 20160609"
+.section    .note.GNU-stack,"",@progbits
+</code></pre>
+<h3>3. Assembler</h3>
+<p>The assembler converts assembly instructions to machine code. The output of this stage is stored as <code>hello.o</code>. This stage is notable as this output is frequently generated as part of a "normal" build process. Typically, many C files are assembled and then linked into a single final executable.</p>
+<p>Being machine code, we can't easily view .o files directly. GCC does include a tool called objdump to allow us to disassemble obejct files. Here's the output of <code>objdump -D hello.o</code> to demonstrate that the object file basically contains our previous assembly code as machine code:</p>
+<pre><code>hello.o:     file format elf64-x86-64
+
+
+ Disassembly of section .text:
+
+ 0000000000000000 &lt;main&gt;:
+    0:  55                      push   %rbp
+    1:  48 89 e5                mov    %rsp,%rbp
+    4:  bf 00 00 00 00          mov    $0x0,%edi
+    9:  e8 00 00 00 00          callq  e &lt;main+0xe&gt;
+    e:  90                      nop
+    f:  5d                      pop    %rbp
+   10:  c3                      retq
+
+ Disassembly of section .rodata:
+
+ 0000000000000000 &lt;.rodata&gt;:
+    0:  68 65 6c 6c 6f          pushq  $0x6f6c6c65
+    5:  20 77 6f                and    %dh,0x6f(%rdi)
+    8:  72 6c                   jb     76 &lt;main+0x76&gt;
+    a:  64                      fs
+    ...
+
+ Disassembly of section .comment:
+
+ 0000000000000000 &lt;.comment&gt;:
+    0:  00 47 43                add    %al,0x43(%rdi)
+    3:  43 3a 20                rex.XB cmp (%r8),%spl
+    6:  28 55 62                sub    %dl,0x62(%rbp)
+    9:  75 6e                   jne    79 &lt;main+0x79&gt;
+    b:  74 75                   je     82 &lt;main+0x82&gt;
+    d:  20 35 2e 34 2e 30       and    %dh,0x302e342e(%rip)        # 302e3441 &lt;main+0x302e3441&gt;
+   13:  2d 36 75 62 75          sub    $0x75627536,%eax
+   18:  6e                      outsb  %ds:(%rsi),(%dx)
+   19:  74 75                   je     90 &lt;main+0x90&gt;
+   1b:  31 7e 31                xor    %edi,0x31(%rsi)
+   1e:  36 2e 30 34 2e          ss xor %dh,%cs:(%rsi,%rbp,1)
+   23:  39 29                   cmp    %ebp,(%rcx)
+   25:  20 35 2e 34 2e 30       and    %dh,0x302e342e(%rip)        # 302e3459 &lt;main+0x302e3459&gt;
+   2b:  20 32                   and    %dh,(%rdx)
+   2d:  30 31                   xor    %dh,(%rcx)
+   2f:  36 30 36                xor    %dh,%ss:(%rsi)
+   32:  30 39                   xor    %bh,(%rcx)
+    ...
+
+ Disassembly of section .eh_frame:
+
+ 0000000000000000 &lt;.eh_frame&gt;:
+    0:  14 00                   adc    $0x0,%al
+    2:  00 00                   add    %al,(%rax)
+    4:  00 00                   add    %al,(%rax)
+    6:  00 00                   add    %al,(%rax)
+    8:  01 7a 52                add    %edi,0x52(%rdx)
+    b:  00 01                   add    %al,(%rcx)
+    d:  78 10                   js     1f &lt;.eh_frame+0x1f&gt;
+    f:  01 1b                   add    %ebx,(%rbx)
+   11:  0c 07                   or     $0x7,%al
+   13:  08 90 01 00 00 1c       or     %dl,0x1c000001(%rax)
+   19:  00 00                   add    %al,(%rax)
+   1b:  00 1c 00                add    %bl,(%rax,%rax,1)
+   1e:  00 00                   add    %al,(%rax)
+   20:  00 00                   add    %al,(%rax)
+   22:  00 00                   add    %al,(%rax)
+   24:  11 00                   adc    %eax,(%rax)
+   26:  00 00                   add    %al,(%rax)
+   28:  00 41 0e                add    %al,0xe(%rcx)
+   2b:  10 86 02 43 0d 06       adc    %al,0x60d4302(%rsi)
+   31:  4c 0c 07                rex.WR or $0x7,%al
+   34:  08 00                   or     %al,(%rax)
+    ...
+</code></pre>
+<h3>4. Linker</h3>
+<p>The linker merges object file(s) into a single final executable. It adds necessary bootstraping code to start execution, handles environment variables, command line arguments, and other things.</p>
+<p>It converts references to external code to the correct locations. The linker may run dynamically to call into dynamically loaded dependencies, or it can be run statically to include all dependencies directly in the final binary.</p>
+<p>The output of this stage is the final executable, <code>hello</code>. This stage is also hard to view directly, but we can still use <code>objdump</code> to convert it to assembly for debugging:</p>
+<pre><code>q1/hello:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+00000000004003c8 &lt;_init&gt;:
+  4003c8:   48 83 ec 08             sub    $0x8,%rsp
+  4003cc:   48 8b 05 25 0c 20 00    mov    0x200c25(%rip),%rax        # 600ff8 &lt;_DYNAMIC+0x1d0&gt;
+  4003d3:   48 85 c0                test   %rax,%rax
+  4003d6:   74 05                   je     4003dd &lt;_init+0x15&gt;
+  4003d8:   e8 43 00 00 00          callq  400420 &lt;__libc_start_main@plt+0x10&gt;
+  4003dd:   48 83 c4 08             add    $0x8,%rsp
+  4003e1:   c3                      retq
+
+Disassembly of section .plt:
+
+00000000004003f0 &lt;puts@plt-0x10&gt;:
+  4003f0:   ff 35 12 0c 20 00       pushq  0x200c12(%rip)        # 601008 &lt;_GLOBAL_OFFSET_TABLE_+0x8&gt;
+  4003f6:   ff 25 14 0c 20 00       jmpq   *0x200c14(%rip)        # 601010 &lt;_GLOBAL_OFFSET_TABLE_+0x10&gt;
+  4003fc:   0f 1f 40 00             nopl   0x0(%rax)
+
+0000000000400400 &lt;puts@plt&gt;:
+  400400:   ff 25 12 0c 20 00       jmpq   *0x200c12(%rip)        # 601018 &lt;_GLOBAL_OFFSET_TABLE_+0x18&gt;
+  400406:   68 00 00 00 00          pushq  $0x0
+  40040b:   e9 e0 ff ff ff          jmpq   4003f0 &lt;_init+0x28&gt;
+
+0000000000400410 &lt;__libc_start_main@plt&gt;:
+  400410:   ff 25 0a 0c 20 00       jmpq   *0x200c0a(%rip)        # 601020 &lt;_GLOBAL_OFFSET_TABLE_+0x20&gt;
+  400416:   68 01 00 00 00          pushq  $0x1
+  40041b:   e9 d0 ff ff ff          jmpq   4003f0 &lt;_init+0x28&gt;
+
+Disassembly of section .plt.got:
+
+0000000000400420 &lt;.plt.got&gt;:
+  400420:   ff 25 d2 0b 20 00       jmpq   *0x200bd2(%rip)        # 600ff8 &lt;_DYNAMIC+0x1d0&gt;
+  400426:   66 90                   xchg   %ax,%ax
+
+Disassembly of section .text:
+
+0000000000400430 &lt;_start&gt;:
+  400430:   31 ed                   xor    %ebp,%ebp
+  400432:   49 89 d1                mov    %rdx,%r9
+  400435:   5e                      pop    %rsi
+  400436:   48 89 e2                mov    %rsp,%rdx
+  400439:   48 83 e4 f0             and    $0xfffffffffffffff0,%rsp
+  40043d:   50                      push   %rax
+  40043e:   54                      push   %rsp
+  40043f:   49 c7 c0 b0 05 40 00    mov    $0x4005b0,%r8
+  400446:   48 c7 c1 40 05 40 00    mov    $0x400540,%rcx
+  40044d:   48 c7 c7 26 05 40 00    mov    $0x400526,%rdi
+  400454:   e8 b7 ff ff ff          callq  400410 &lt;__libc_start_main@plt&gt;
+  400459:   f4                      hlt    
+  40045a:   66 0f 1f 44 00 00       nopw   0x0(%rax,%rax,1)
+
+... (snipped)
+</code></pre>
+<h2>7b <strong>(8 points)</strong></h2>
+<p>The flex file, calc.lex, is a simple calculator. You can compile the file with the following commands:</p>
+<p>&gt; flex calc.lex; gcc -o calc lex.yy.c</p>
+<p>You can then run the calculator with the 'calc' command and can quit out
+of it using ctrl-d.</p>
+<p>Do the following and submitted your modified code:</p>
+<h3>Add division and subtraction to the calculator.</h3>
+<p>Here's the patch to implement this:</p>
+<pre><code>diff --git a/q2/calc.lex b/q2/calc.lex
+index 101c022..01e6612 100644
+--- a/q2/calc.lex
++++ b/q2/calc.lex
+@@ -32,7 +32,9 @@ struct tokenInfo2 yylval;
+
+ :=    printf("ASSIGNMENT\n");
+ \+     printf("PLUS\n");
++\-     printf("MINUS\n");
+ \*     printf("MULTIPLY\n");
++\/     printf("DIVIDE\n");
+
+ \n    printf("NEWLINE\n");
+</code></pre>
+<h3>Keep track of the number of lines that have been input</h3>
+<p>Make sure that you set the lineNumber variable in yylval.ti for each token and print out the line count when you print out variable information.</p>
+<p>Here's the patch to implement this:</p>
+<pre><code>diff --git a/q2/calc.lex b/q2/calc.lex
+index 01e6612..b91c8a0 100644
+--- a/q2/calc.lex
++++ b/q2/calc.lex
+@@ -21,7 +21,7 @@ struct tokenInfo2 yylval;
+ [a-z]   {
+       yylval.ti.value = 0;
+       yylval.ti.name =  (char *) strdup(yytext);
+-      printf("VARIABLE: %s\n", yylval.ti.name);
++      printf("VARIABLE: %s LINES: %d\n", yylval.ti.name, yylval.ti.lineNumber);
+         }
+
+ [0-9]+  {  
+@@ -36,7 +36,10 @@ struct tokenInfo2 yylval;
+ \*     printf("MULTIPLY\n");
+ \/     printf("DIVIDE\n");
+
+-\n    printf("NEWLINE\n");
++\n      {
++           printf("NEWLINE\n");
++           yylval.ti.lineNumber += 1;
++        }
+
+ [ \t]   ;
+</code></pre>
+<h3>Extend the variables to handle longer variable names</h3>
+<p>The variables must start with an alphabetic character or '_' character and may be followed by 0 or more alphabetic/numerical/'_'/'-' characters.</p>
+<p>Here's the patch to implement this:</p>
+<pre><code>diff --git a/q2/calc.lex b/q2/calc.lex
+index b91c8a0..9857abd 100644
+--- a/q2/calc.lex
++++ b/q2/calc.lex
+@@ -18,7 +18,7 @@ struct tokenInfo2 yylval;
+
+ %%
+
+-[a-z]   {
++[a-zA-Z_][a-zA-Z0-9_\-]*   {
+       yylval.ti.value = 0;
+       yylval.ti.name =  (char *) strdup(yytext);
+       printf("VARIABLE: %s LINES: %d\n", yylval.ti.name, yylval.ti.lineNumber);
+</code></pre>
+<h2>7c <strong>(8 points)</strong> 3)</h2>
+<p>A flex file, calc.lex, a bison file, calc.y, and a Makefile are provide in homework2 q3 folder. You can compile the flex file and the bison file by running</p>
+<p>&gt;make</p>
+<p>A binary execution file, calc, will be created.</p>
+<p>You can then run the calculator with the 'calc' command and can quit out
+of it using “quit”.</p>
+<p>Do the following and submitted your modified code:</p>
+<ul>
+<li>Extend the calculator to support power operator, ‘\^’. Let x, y are
+    two numbers, <span class="math">\({x\hat{}y = x}^{y}\)</span class="math">.</li>
+</ul>
+<p>```
+diff --git a/q3/Makefile b/q3/Makefile
+index d002bb4..3f2fd68 100644
+--- a/q3/Makefile
++++ b/q3/Makefile
+@@ -7,7 +7,7 @@ lex.yy.c: calc.lex calc.tab.h
+    flex calc.lex</p>
+<p>calc: lex.yy.c calc.tab.c calc.tab.h
+-   gcc -o calc calc.tab.c lex.yy.c -lfl
++   gcc -o calc calc.tab.c lex.yy.c -lfl -lm</p>
+<p>test: calc
+    echo "1+1" | ./calc | grep 2
+diff --git a/q3/calc.lex b/q3/calc.lex
+index 975e718..5153c79 100644
+--- a/q3/calc.lex
++++ b/q3/calc.lex
+@@ -16,6 +16,7 @@
+ "-"    {return '-';}
+ "<em>"    {return '</em>';}
+ "/"    {return '/';}
++"^"    {return '^';}
+ "quit" {return QUIT;}</p>
+<p>%%
+diff --git a/q3/calc.y b/q3/calc.y
+index 29a338d..a2451de 100644
+--- a/q3/calc.y
++++ b/q3/calc.y
+@@ -20,6 +20,7 @@ void yyerror(const char<em> s);
+ %token QUIT
+ %left '+' '-'
+ %left '</em>' '/'
++%left '^'</p>
+<p>%type<ival> exp</p>
+<p>@@ -41,6 +42,7 @@ exp: NUM      { <span class="math">\[ = $1; }
+     | exp '-' exp  { \]</span class="math"> = <span class="math">\(1 - \)</span class="math">3; }
+     | exp '*' exp  { <span class="math">\[ = $1 * $3; }
+     | exp '/' exp  { \]</span class="math"> = <span class="math">\(1 / \)</span class="math">3; }
++    | exp '^' exp  { <span class="math">\($ = pow(\)</span class="math">1, $3); }
+ ;</p>
+<p>%%
+```</p>
+<ul>
+<li>Extend the calculator to support parentheses, ‘(‘, and ‘)’. An
+    expression inside parentheses needs to be evaluated first, e.g.,
+    enter 2 * ( 3 + 2) in the calculator and it should return 10.</li>
+</ul>
+<p>```
+diff --git a/q3/calc.lex b/q3/calc.lex
+index 5153c79..c20788f 100644
+--- a/q3/calc.lex
++++ b/q3/calc.lex
+@@ -17,6 +17,8 @@
+ "<em>"    {return '</em>';}
+ "/"    {return '/';}
+ "^"    {return '^';}
++"("    {return '(';}
++")"    {return ')';}
+ "quit" {return QUIT;}</p>
+<p>%%
+diff --git a/q3/calc.y b/q3/calc.y
+index a2451de..3e84c55 100644
+--- a/q3/calc.y
++++ b/q3/calc.y
+@@ -18,6 +18,7 @@ void yyerror(const char* s);</p>
+<p>%token<ival> NUM
+ %token QUIT
++%left '(' ')'
+ %left '+' '-'
+ %left '*' '/'
+ %left '^'
+@@ -38,6 +39,7 @@ line: '\n'
+ ;</p>
+<p>exp: NUM       { <span class="math">\[ = $1; }
++    | '(' exp ')' { \]</span class="math"> = <span class="math">\(2; }
+     | exp '+' exp  { \)</span class="math"><span class="math">\( = \)</span class="math">1 + <span class="math">\(3; }
+     | exp '-' exp  { \)</span class="math"><span class="math">\( = \)</span class="math">1 - <span class="math">\(3; }
+     | exp '*' exp  { \)</span class="math"><span class="math">\( = \)</span class="math">1 * $3; }</p>
+<p>```</p>
+    <HR/>
+    <div class="footer">
+      <p>Published from <a href="hw2.pmd">hw2.pmd</a>
+    using <a href="http://mpastell.com/pweave">Pweave</a> 0.30.1
+    on 10-03-2018.<p></div>
+
+            </div>
+        </div>
+    </div>
+  </BODY>
+</HTML>
