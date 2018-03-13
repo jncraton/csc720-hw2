@@ -1,4 +1,4 @@
-all: hw2.html hw2.md
+all: hw2.html
 
 hw2.html: hw2.pmd
 	pweave --format=md2html hw2.pmd
@@ -18,3 +18,4 @@ clean:
 	rm -f q?/*.yy.c
 	rm -f q?/calc
 	rm -f q1/hello
+	rm hw2.md
