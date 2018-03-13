@@ -66,7 +66,7 @@ print([''.join(s) for s in generate(grammar, depth=5)])
 
 ## Problem 3 (10 points)
 
-Figure 2.17 shows a push down automata which recognizes {a^i^b^j^c^k^| i, j, k≥0 and i=j or i=k}. Please design and draw a new push down automata which recognizes {a^i^b^j^c^k^| i, j, k≥0 and i≥j or i≥k}.
+Figure 2.17 shows a push down automata which recognizes {a<sup>i</sup>b<sup>j</sup>c<sup>k</sup>| i, j, k≥0 and i=j or i=k}. Please design and draw a new push down automata which recognizes {a<sup>i</sup>b<sup>j</sup>c<sup>k</sup>| i, j, k≥0 and i≥j or i≥k}.
 
 ![](./media/image1.png)
 
@@ -78,7 +78,7 @@ Basically, this needs to be amended to also accept i > j or i > k. Let's make su
 
 ![](pda-test.png)
 
-Now we just need to add a few transitions to allow the machine to be able to loop after it has met the desired conditions:
+Now we need to add a few transitions to allow the machine to be able to loop after it has met the desired conditions:
 
 ![](pda-adj.png)
 
@@ -146,13 +146,12 @@ Step 4: Convert rules to proper form
     B₁→AB
     B→00
 
-I'm not sure if "00" counts as a single non-terminal in this case. Just in case it does not, I'll create separate rules so that "0" is the only non-terminal.
+I'm not sure if "00" counts as a single non-terminal in this case. Just in case it does not, I'll create a separate rule so that "0" is the only non-terminal.
 
-    A₀→BB₁|C|BB|ε
-    A→BB₁|C|BB
+    A₀→BB₁|ZZ|BB|ε
+    A→BB₁|ZZ|BB
     B₁→AB
-    B→C
-    C→ZZ
+    B→ZZ
     Z→0
 
 Just to check our work, let's weakly verify that the starting form and CNF generate the same language:
@@ -164,11 +163,10 @@ B -> '0' '0'|
 """)
 
 cnf = CFG.fromstring("""
-A0 -> B B1 | C | B B |
-A  -> B B1 | C | B B
+A0 -> B B1 | Z Z | B B |
+A  -> B B1 | Z Z | B B
 B1 -> A B
-B  -> C
-C  -> Z Z
+B  -> Z Z
 Z  -> '0'
 """)
 
@@ -199,7 +197,6 @@ def is_equivalent(a, b, flipped=False):
 is_equivalent(start, cnf)
 ```
 
-
 ## Problem 5 (10 points)
 
 2.30 Use the pumping lemma to show that the following languages are not context free.
@@ -229,17 +226,17 @@ For example, take the following text from a c-like langauge:
 
 A lexer may contain regular language rules to match against the string such as:
 
-    if becomes IF
-    return becomes RETURN
-    ( becomes OPEN_P
-    ) becomes CLOSE_P
-    == become IS_EQUAL
-    { becomes OPEN_B
-    } becomes CLOSE_B
-    \d+ becomes INT_LITERAL
-    * becomes NAME
+    if     →   IF
+    return →   RETURN
+    (      →   OPEN_P
+    )      →   CLOSE_P
+    ==     →   IS_EQUAL
+    {      →   OPEN_B
+    }      →   CLOSE_B
+    \d+    →   INT_LITERAL
+    *      →   NAME
 
-The lexer could then convert the string to a list of (name, value) duples such as:
+The lexer then converts the string to a list of (name, value) duples such as:
 
     (IF, 'if')
     (OPEN_P, '(')
@@ -252,26 +249,24 @@ The lexer could then convert the string to a list of (name, value) duples such a
     (INT_LITERAL, '42')
     (CLOSE_B, '}')
 
-In this way the, the lexer uses regular language to convert lexemes matching a particular langage (12 and 42 are both INT_LITERALS) to a token representing that lexeme group.
+In this way, the lexer uses regular language to convert lexemes matching a particular langage to tokens.
 
 b.  Briefly describe how context free language is used for parsing
     (syntax analysis) in a compiler.
 
-Once tokenized, the syntax of a segment of text can be parsed for syntax analysis. The overall syntax of many common programming langauges is context-free, so the syntax is matched to a context-free grammar.
+Once tokenized, the syntax of a text can be parsed. The overall syntax of many common programming langauges is context-free, so the syntax is matched to a context-free grammar.
 
 Considering the above example, we may have grammar rules such as the following. Note that terminals here are the token names from above.
 
-    STMT -> IF_STMT
-    STMT -> RETURN_STMT
-    RETURN_STMT -> RETURN EXPR
-    IF_STMT -> IF CONDITION BLOCK
-    CONDITION -> OPEN_P EXPR CLOSE_P
-    BLOCK -> OPEN_B STMT CLOSE_B
-    EXPR -> EXPR OP EXPR
-    EXPR -> INT_LITERAL
-    OP -> IS_EQUAL
+    STMT → IF_STMT | RETURN_STMT
+    RETURN_STMT → RETURN EXPR
+    IF_STMT → IF CONDITION BLOCK
+    CONDITION → OPEN_P EXPR CLOSE_P
+    BLOCK → OPEN_B STMT CLOSE_B
+    EXPR → EXPR OP EXPR | INT_LITERAL
+    OP → IS_EQUAL
 
-These rules are used to parse the tokens into a parse tree that can be easily interpretted or compiled.
+These rules are used to parse the tokens into a parse tree that can be easily interpretted or compiled to machine code.
 
 ## Problem 7 (20 points)
 
@@ -281,12 +276,12 @@ The completed code for this assignment is in the [q1](https://github.com/jncrato
 
 When you use gcc compile a program, e.g., hello.c
 
-&gt;gcc hello.c –o hello
+`gcc hello.c –o hello`
 
 It will create a binary file. You can also check the temporary output
 files created by gcc using option –save-temps. Try
 
-&gt;gcc hello.c –o hello –save-temps
+`gcc hello.c –o hello –save-temps`
 
 and find out what intermediate output files can be produced by gcc.
 Briefly describe each intermediate output file.
@@ -489,9 +484,9 @@ The output of this stage is the final executable, `hello`. This stage is also ha
 
 The flex file, calc.lex, is a simple calculator. You can compile the file with the following commands:
 
-&gt; flex calc.lex; gcc -o calc lex.yy.c
+`flex calc.lex; gcc -o calc lex.yy.c`
 
-You can then run the calculator with the 'calc' command and can quit out
+You can then run the calculator with the `calc` command and can quit out
 of it using ctrl-d.
 
 Do the following and submitted your modified code:
@@ -516,7 +511,7 @@ We need to add rules to the lexer for these operations. Here's the patch to impl
 
 ### Keep track of the number of lines that have been input
 
-Make sure that you set the lineNumber variable in yylval.ti for each token and print out the line count when you print out variable information.
+> Make sure that you set the lineNumber variable in yylval.ti for each token and print out the line count when you print out variable information.
 
 We need to update the block that handles newlines to increment a counter, and update the variable display to also show this counter. Here's the patch to implement this:
 
@@ -547,7 +542,7 @@ We need to update the block that handles newlines to increment a counter, and up
 
 ### Extend the variables to handle longer variable names
 
-The variables must start with an alphabetic character or '\_' character and may be followed by 0 or more alphabetic/numerical/'\_'/'-' characters.
+> The variables must start with an alphabetic character or '\_' character and may be followed by 0 or more alphabetic/numerical/'\_'/'-' characters.
 
 We just need to extend the regex to meet these requirements. Here's the patch to implement this:
 
@@ -569,18 +564,18 @@ We just need to extend the regex to meet these requirements. Here's the patch to
 
 A flex file, calc.lex, a bison file, calc.y, and a Makefile are provide in homework2 q3 folder. You can compile the flex file and the bison file by running
 
-&gt;make
+`make`
 
 A binary execution file, calc, will be created.
 
-You can then run the calculator with the 'calc' command and can quit out
-of it using “quit”.
+You can then run the calculator with the q`calc` command and can quit out
+of it using `quit`.
 
 Do the following and submitted your modified code:
 
 ### Extend the calculator to support the power operator
 
-Let x, y are two numbers, ${x\hat{}y = x}^{y}$.
+> Let x, y are two numbers, ${x\hat{}y = x}^{y}$.
 
 We need to add a rule to the lexer for power and a rule to the parser to actually do the math. We also need explicitly link against libm using the `-lm` gcc flag since we are calling the `pow` function that lives there.
 
@@ -632,9 +627,11 @@ Here's the patch to implement this:
      
      %%
 
-Extend the calculator to support parentheses, ‘(‘, and ‘)’. An expression inside parentheses needs to be evaluated first, e.g., enter 2 \* ( 3 + 2) in the calculator and it should return 10.
+### Extend the calculator to support parentheses
 
-We need to add parens to the lexer, and properly handle them in the parse at the highest priority. Here's the patch to implement this:
+> An expression inside parentheses needs to be evaluated first, e.g., enter 2 \* ( 3 + 2) in the calculator and it should return 10.
+
+We need to add parens to the lexer, and properly handle them in the parser at the highest priority. Here's the patch to implement this:
 
     diff --git a/q3/calc.lex b/q3/calc.lex
     index 5153c79..c20788f 100644

@@ -728,13 +728,13 @@ img {max-width : 100%}
 </pre></div>
 
 <h2>Problem 3 (10 points)</h2>
-<p>Figure 2.17 shows a push down automata which recognizes {a^i^b^j^c^k^| i, j, k≥0 and i=j or i=k}. Please design and draw a new push down automata which recognizes {a^i^b^j^c^k^| i, j, k≥0 and i≥j or i≥k}.</p>
+<p>Figure 2.17 shows a push down automata which recognizes {a<sup>i</sup>b<sup>j</sup>c<sup>k</sup>| i, j, k≥0 and i=j or i=k}. Please design and draw a new push down automata which recognizes {a<sup>i</sup>b<sup>j</sup>c<sup>k</sup>| i, j, k≥0 and i≥j or i≥k}.</p>
 <p><img alt="" src="./media/image1.png" /></p>
 <p>Here's the orignal in JFLAP:</p>
 <p><img alt="" src="pda.png" /></p>
 <p>Basically, this needs to be amended to also accept i &gt; j or i &gt; k. Let's make sure the orignal does what we expect first:</p>
 <p><img alt="" src="pda-test.png" /></p>
-<p>Now we just need to add a few transitions to allow the machine to be able to loop after it has met the desired conditions:</p>
+<p>Now we need to add a few transitions to allow the machine to be able to loop after it has met the desired conditions:</p>
 <p><img alt="" src="pda-adj.png" /></p>
 <p>Now we see that our test for the new mode are passing:</p>
 <p><img alt="" src="pda-adj-test.png" /></p>
@@ -786,12 +786,11 @@ A→BB₁|00|BB
 B₁→AB
 B→00
 </code></pre>
-<p>I'm not sure if "00" counts as a single non-terminal in this case. Just in case it does not, I'll create separate rules so that "0" is the only non-terminal.</p>
-<pre><code>A₀→BB₁|C|BB|ε
-A→BB₁|C|BB
+<p>I'm not sure if "00" counts as a single non-terminal in this case. Just in case it does not, I'll create a separate rule so that "0" is the only non-terminal.</p>
+<pre><code>A₀→BB₁|ZZ|BB|ε
+A→BB₁|ZZ|BB
 B₁→AB
-B→C
-C→ZZ
+B→ZZ
 Z→0
 </code></pre>
 <p>Just to check our work, let's weakly verify that the starting form and CNF generate the same language:</p>
@@ -802,11 +801,10 @@ Z→0
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 
 <span class="n">cnf</span> <span class="o">=</span> <span class="n">CFG</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">A0 -&gt; B B1 | C | B B |</span>
-<span class="s2">A  -&gt; B B1 | C | B B</span>
+<span class="s2">A0 -&gt; B B1 | Z Z | B B |</span>
+<span class="s2">A  -&gt; B B1 | Z Z | B B</span>
 <span class="s2">B1 -&gt; A B</span>
-<span class="s2">B  -&gt; C</span>
-<span class="s2">C  -&gt; Z Z</span>
+<span class="s2">B  -&gt; Z Z</span>
 <span class="s2">Z  -&gt; &#39;0&#39;</span>
 <span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
 
@@ -857,17 +855,17 @@ True
 <pre><code>if ( a == 12 ) { return 42 }
 </code></pre>
 <p>A lexer may contain regular language rules to match against the string such as:</p>
-<pre><code>if becomes IF
-return becomes RETURN
-( becomes OPEN_P
-) becomes CLOSE_P
-== become IS_EQUAL
-{ becomes OPEN_B
-} becomes CLOSE_B
-\d+ becomes INT_LITERAL
-* becomes NAME
+<pre><code>if     →   IF
+return →   RETURN
+(      →   OPEN_P
+)      →   CLOSE_P
+==     →   IS_EQUAL
+{      →   OPEN_B
+}      →   CLOSE_B
+\d+    →   INT_LITERAL
+*      →   NAME
 </code></pre>
-<p>The lexer could then convert the string to a list of (name, value) duples such as:</p>
+<p>The lexer then converts the string to a list of (name, value) duples such as:</p>
 <pre><code>(IF, 'if')
 (OPEN_P, '(')
 (NAME, 'a')
@@ -879,30 +877,28 @@ return becomes RETURN
 (INT_LITERAL, '42')
 (CLOSE_B, '}')
 </code></pre>
-<p>In this way the, the lexer uses regular language to convert lexemes matching a particular langage (12 and 42 are both INT_LITERALS) to a token representing that lexeme group.</p>
+<p>In this way, the lexer uses regular language to convert lexemes matching a particular langage to tokens.</p>
 <p>b.  Briefly describe how context free language is used for parsing
     (syntax analysis) in a compiler.</p>
-<p>Once tokenized, the syntax of a segment of text can be parsed for syntax analysis. The overall syntax of many common programming langauges is context-free, so the syntax is matched to a context-free grammar.</p>
+<p>Once tokenized, the syntax of a text can be parsed. The overall syntax of many common programming langauges is context-free, so the syntax is matched to a context-free grammar.</p>
 <p>Considering the above example, we may have grammar rules such as the following. Note that terminals here are the token names from above.</p>
-<pre><code>STMT -&gt; IF_STMT
-STMT -&gt; RETURN_STMT
-RETURN_STMT -&gt; RETURN EXPR
-IF_STMT -&gt; IF CONDITION BLOCK
-CONDITION -&gt; OPEN_P EXPR CLOSE_P
-BLOCK -&gt; OPEN_B STMT CLOSE_B
-EXPR -&gt; EXPR OP EXPR
-EXPR -&gt; INT_LITERAL
-OP -&gt; IS_EQUAL
+<pre><code>STMT → IF_STMT | RETURN_STMT
+RETURN_STMT → RETURN EXPR
+IF_STMT → IF CONDITION BLOCK
+CONDITION → OPEN_P EXPR CLOSE_P
+BLOCK → OPEN_B STMT CLOSE_B
+EXPR → EXPR OP EXPR | INT_LITERAL
+OP → IS_EQUAL
 </code></pre>
-<p>These rules are used to parse the tokens into a parse tree that can be easily interpretted or compiled.</p>
+<p>These rules are used to parse the tokens into a parse tree that can be easily interpretted or compiled to machine code.</p>
 <h2>Problem 7 (20 points)</h2>
 <p>The completed code for this assignment is in the <a href="https://github.com/jncraton/csc720-hw2/tree/master/q1">q1</a>, <a href="https://github.com/jncraton/csc720-hw2/tree/master/q2">q2</a>, and <a href="https://github.com/jncraton/csc720-hw2/tree/master/q3">q3</a> directories.</p>
 <h2>Problem 7a (4 points)</h2>
 <p>When you use gcc compile a program, e.g., hello.c</p>
-<p>&gt;gcc hello.c –o hello</p>
+<p><code>gcc hello.c –o hello</code></p>
 <p>It will create a binary file. You can also check the temporary output
 files created by gcc using option –save-temps. Try</p>
-<p>&gt;gcc hello.c –o hello –save-temps</p>
+<p><code>gcc hello.c –o hello –save-temps</code></p>
 <p>and find out what intermediate output files can be produced by gcc.
 Briefly describe each intermediate output file.</p>
 <p>A typical C compilation pipeline is handled in 4 phases:</p>
@@ -1087,8 +1083,8 @@ Disassembly of section .text:
 </code></pre>
 <h2>Problem 7b (8 points)</h2>
 <p>The flex file, calc.lex, is a simple calculator. You can compile the file with the following commands:</p>
-<p>&gt; flex calc.lex; gcc -o calc lex.yy.c</p>
-<p>You can then run the calculator with the 'calc' command and can quit out
+<p><code>flex calc.lex; gcc -o calc lex.yy.c</code></p>
+<p>You can then run the calculator with the <code>calc</code> command and can quit out
 of it using ctrl-d.</p>
 <p>Do the following and submitted your modified code:</p>
 <h3>Add division and subtraction to the calculator.</h3>
@@ -1108,7 +1104,9 @@ index 101c022..01e6612 100644
  \n    printf("NEWLINE\n");
 </code></pre>
 <h3>Keep track of the number of lines that have been input</h3>
+<blockquote>
 <p>Make sure that you set the lineNumber variable in yylval.ti for each token and print out the line count when you print out variable information.</p>
+</blockquote>
 <p>We need to update the block that handles newlines to increment a counter, and update the variable display to also show this counter. Here's the patch to implement this:</p>
 <pre><code>diff --git a/q2/calc.lex b/q2/calc.lex
 index 01e6612..b91c8a0 100644
@@ -1136,7 +1134,9 @@ index 01e6612..b91c8a0 100644
  [ \t]   ;
 </code></pre>
 <h3>Extend the variables to handle longer variable names</h3>
+<blockquote>
 <p>The variables must start with an alphabetic character or '_' character and may be followed by 0 or more alphabetic/numerical/'_'/'-' characters.</p>
+</blockquote>
 <p>We just need to extend the regex to meet these requirements. Here's the patch to implement this:</p>
 <pre><code>diff --git a/q2/calc.lex b/q2/calc.lex
 index b91c8a0..9857abd 100644
@@ -1154,13 +1154,15 @@ index b91c8a0..9857abd 100644
 </code></pre>
 <h2>Problem 7c (8 points)</h2>
 <p>A flex file, calc.lex, a bison file, calc.y, and a Makefile are provide in homework2 q3 folder. You can compile the flex file and the bison file by running</p>
-<p>&gt;make</p>
+<p><code>make</code></p>
 <p>A binary execution file, calc, will be created.</p>
-<p>You can then run the calculator with the 'calc' command and can quit out
-of it using “quit”.</p>
+<p>You can then run the calculator with the q<code>calc</code> command and can quit out
+of it using <code>quit</code>.</p>
 <p>Do the following and submitted your modified code:</p>
 <h3>Extend the calculator to support the power operator</h3>
+<blockquote>
 <p>Let x, y are two numbers, <span class="math">\({x\hat{}y = x}^{y}\)</span class="math">.</p>
+</blockquote>
 <p>We need to add a rule to the lexer for power and a rule to the parser to actually do the math. We also need explicitly link against libm using the <code>-lm</code> gcc flag since we are calling the <code>pow</code> function that lives there.</p>
 <p>Here's the patch to implement this:</p>
 <pre><code>diff --git a/q3/Makefile b/q3/Makefile
@@ -1209,8 +1211,11 @@ index 29a338d..a2451de 100644
 
  %%
 </code></pre>
-<p>Extend the calculator to support parentheses, ‘(‘, and ‘)’. An expression inside parentheses needs to be evaluated first, e.g., enter 2 * ( 3 + 2) in the calculator and it should return 10.</p>
-<p>We need to add parens to the lexer, and properly handle them in the parse at the highest priority. Here's the patch to implement this:</p>
+<h3>Extend the calculator to support parentheses</h3>
+<blockquote>
+<p>An expression inside parentheses needs to be evaluated first, e.g., enter 2 * ( 3 + 2) in the calculator and it should return 10.</p>
+</blockquote>
+<p>We need to add parens to the lexer, and properly handle them in the parser at the highest priority. Here's the patch to implement this:</p>
 <pre><code>diff --git a/q3/calc.lex b/q3/calc.lex
 index 5153c79..c20788f 100644
 --- a/q3/calc.lex
@@ -1264,7 +1269,7 @@ echo "2*(3+2)" | ./calc | grep 10
     <div class="footer">
       <p>Published from <a href="hw2.pmd">hw2.pmd</a>
     using <a href="http://mpastell.com/pweave">Pweave</a> 0.30.1
-    on 10-03-2018.<p></div>
+    on 12-03-2018.<p></div>
 
             </div>
         </div>
