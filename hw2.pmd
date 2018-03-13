@@ -68,23 +68,23 @@ print([''.join(s) for s in generate(grammar, depth=5)])
 
 Figure 2.17 shows a push down automata which recognizes {a<sup>i</sup>b<sup>j</sup>c<sup>k</sup>| i, j, k≥0 and i=j or i=k}. Please design and draw a new push down automata which recognizes {a<sup>i</sup>b<sup>j</sup>c<sup>k</sup>| i, j, k≥0 and i≥j or i≥k}.
 
-![](./media/image1.png)
+![](media/image1.png)
 
-Here's the orignal in JFLAP:
+Basically, this needs to be amended to also accept i > j or i > k. Let's make sure the orignal does what we expect first. Here's the orignal in JFLAP:
 
-![](pda.png)
+![](pda/pda.png)
 
-Basically, this needs to be amended to also accept i > j or i > k. Let's make sure the orignal does what we expect first:
+And a quick test:
 
-![](pda-test.png)
+![](pda/pda-test.png)
 
 Now we need to add a few transitions to allow the machine to be able to loop after it has met the desired conditions:
 
-![](pda-adj.png)
+![](pda/pda-adj.png)
 
-Now we see that our test for the new mode are passing:
+Now we see that our tests for the new mode are passing:
 
-![](pda-adj-test.png)
+![](pda/pda-adj-test.png)
 
 ## Problem 4 (10 points)
 

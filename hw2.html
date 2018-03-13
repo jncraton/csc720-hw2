@@ -729,15 +729,15 @@ img {max-width : 100%}
 
 <h2>Problem 3 (10 points)</h2>
 <p>Figure 2.17 shows a push down automata which recognizes {a<sup>i</sup>b<sup>j</sup>c<sup>k</sup>| i, j, k≥0 and i=j or i=k}. Please design and draw a new push down automata which recognizes {a<sup>i</sup>b<sup>j</sup>c<sup>k</sup>| i, j, k≥0 and i≥j or i≥k}.</p>
-<p><img alt="" src="./media/image1.png" /></p>
-<p>Here's the orignal in JFLAP:</p>
-<p><img alt="" src="pda.png" /></p>
-<p>Basically, this needs to be amended to also accept i &gt; j or i &gt; k. Let's make sure the orignal does what we expect first:</p>
-<p><img alt="" src="pda-test.png" /></p>
+<p><img alt="" src="media/image1.png" /></p>
+<p>Basically, this needs to be amended to also accept i &gt; j or i &gt; k. Let's make sure the orignal does what we expect first. Here's the orignal in JFLAP:</p>
+<p><img alt="" src="pda/pda.png" /></p>
+<p>And a quick test:</p>
+<p><img alt="" src="pda/pda-test.png" /></p>
 <p>Now we need to add a few transitions to allow the machine to be able to loop after it has met the desired conditions:</p>
-<p><img alt="" src="pda-adj.png" /></p>
-<p>Now we see that our test for the new mode are passing:</p>
-<p><img alt="" src="pda-adj-test.png" /></p>
+<p><img alt="" src="pda/pda-adj.png" /></p>
+<p>Now we see that our tests for the new mode are passing:</p>
+<p><img alt="" src="pda/pda-adj-test.png" /></p>
 <h2>Problem 4 (10 points)</h2>
 <p>2.14 Convert the following CFG into an equivalent CFG in Chomsky normal form, using the procedure given in Theorem 2.9.</p>
 <pre><code>A→BAB|B|ε
